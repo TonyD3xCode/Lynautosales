@@ -1,0 +1,7 @@
+<h1>Ingresar</h1>
+<form method="post" action="/admin/login">
+  <label>Email</label><input type="email" name="email" required>
+  <label>Contraseña</label><input type="password" name="password" required>
+  <button class="btn">Entrar</button>
+</form>
+<% if(error){ %><p class="alert"><%= error %></p><% } %>

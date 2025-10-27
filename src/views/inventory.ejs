@@ -1,0 +1,56 @@
+<h1><%= __('common.inventory') %></h1>
+<form class="filters" method="get" action="/inventory">
+  <input type="text" name="q" placeholder="Marca modelo o VIN" value="<%= q || '' %>">
+  <select name="year_min">
+    <option value="">Año desde</option>
+    <% for(let y=new Date().getFullYear()+1; y>=1990; y--){ %>
+      <option value="<%= y %>" <%= year_min==y?'selected':'' %>><%= y %></option>
+    <% } %>
+  </select>
+  <select name="year_max">
+    <option value="">Año hasta</option>
+    <% for(let y=new Date().getFullYear()+1; y>=1990; y--){ %>
+      <option value="<%= y %>" <%= year_max==y?'selected':'' %>><%= y %></option>
+    <% } %>
+  </select>
+  <select name="status">
+    <option value="">Estado</option>
+    <option value="available" <%= status==='available'?'selected':'' %>><%= __('common.available') %></option>
+    <option value="pending" <%= status==='pending'?'selected':'' %>><%= __('common.pending') %></option>
+    <option value="sold" <%= status==='sold'?'selected':'' %>><%= __('common.sold') %></option>
+  </select>
+  <select name="sort">
+    <option value="">Orden</option>
+    <option value="price_asc">Precio ↑</option>
+    <option value="price_desc">Precio ↓</option>
+    <option value="year_desc">Año ↓</option>
+    <option value="year_asc">Año ↑</option>
+    <option value="mileage_asc">Millas ↑</option>
+    <option value="mileage_desc">Millas ↓</option>
+  </select>
+  <button type="submit" class="btn"><%= __('common.search') %></button>
+</form>
+
+<div class="grid">
+  <% vehicles.forEach(v=>{ %>
+    <div class="card">
+      <img src="/uploads/images/<%= v.main_photo || 'placeholder.jpg' %>" alt="">
+      <div class="card-body">
+        <div class="badge"><%= v.status.toUpperCase() %></div>
+        <h3><%= v.year %> <%= v.make %> <%= v.model %></h3>
+        <p>Precio $<%= Number(v.price).toLocaleString() %> · Millaje <%= Number(v.mileage).toLocaleString() %></p>
+        <p><a href="/vehicle/<%= v.id %>">Ver detalles</a></p>
+      </div>
+    </div>
+  <% }) %>
+</div>
+
+<% if (pages>1){ %>
+  <p>
+  <% for(let p=1;p<=pages;p++){ %>
+    <% if (p===page){ %><strong>[<%= p %>]</strong>
+    <% } else { %><a href="?page=<%= p %>&q=<%= q||'' %>&year_min=<%= year_min||'' %>&year_max=<%= year_max||'' %>&status=<%= status||'' %>&sort=<%= sort||'' %>"><%= p %></a>
+    <% } %>
+  <% } %>
+  </p>
+<% } %>

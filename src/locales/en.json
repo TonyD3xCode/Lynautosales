@@ -1,0 +1,38 @@
+{
+  "common": {
+    "brand": "LYN AutoSales",
+    "not_found": "Page not found",
+    "login": "Login",
+    "logout": "Logout",
+    "admin": "Admin",
+    "inventory": "Inventory",
+    "search": "Search",
+    "save": "Save",
+    "create": "Create",
+    "delete": "Delete",
+    "actions": "Actions",
+    "status": "Status",
+    "available": "Available",
+    "pending": "Pending",
+    "sold": "Sold"
+  },
+  "home": {
+    "headline": "Used cars for sale",
+    "cta": "Browse inventory"
+  },
+  "vehicle": {
+    "contact": "Contact",
+    "send": "Send",
+    "interested": "I'm interested."
+  },
+  "admin": {
+    "dashboard": "Dashboard",
+    "vehicles": "Vehicles",
+    "newVehicle": "New vehicle",
+    "editVehicle": "Edit vehicle",
+    "gallery": "Gallery",
+    "upload": "Upload",
+    "csvImport": "CSV Import",
+    "metrics": "Metrics"
+  }
+}

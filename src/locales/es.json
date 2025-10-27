@@ -1,0 +1,38 @@
+{
+  "common": {
+    "brand": "LYN AutoSales",
+    "not_found": "Página no encontrada",
+    "login": "Ingresar",
+    "logout": "Salir",
+    "admin": "Panel",
+    "inventory": "Inventario",
+    "search": "Buscar",
+    "save": "Guardar",
+    "create": "Crear",
+    "delete": "Eliminar",
+    "actions": "Acciones",
+    "status": "Estado",
+    "available": "Disponible",
+    "pending": "Pendiente",
+    "sold": "Vendido"
+  },
+  "home": {
+    "headline": "Compra y venta de autos usados",
+    "cta": "Ver inventario"
+  },
+  "vehicle": {
+    "contact": "Contacto",
+    "send": "Enviar",
+    "interested": "Estoy interesado."
+  },
+  "admin": {
+    "dashboard": "Panel",
+    "vehicles": "Vehículos",
+    "newVehicle": "Nuevo vehículo",
+    "editVehicle": "Editar vehículo",
+    "gallery": "Galería",
+    "upload": "Subir",
+    "csvImport": "Importar CSV",
+    "metrics": "Métricas"
+  }
+}

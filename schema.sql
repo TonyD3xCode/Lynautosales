@@ -1,0 +1,45 @@
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(190) UNIQUE NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  role ENUM('admin','manager','lister','viewer') NOT NULL DEFAULT 'admin',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS vehicles (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  year INT NOT NULL,
+  make VARCHAR(80) NOT NULL,
+  model VARCHAR(120) NOT NULL,
+  price DECIMAL(10,2) NOT NULL DEFAULT 0,
+  mileage INT DEFAULT 0,
+  vin VARCHAR(32),
+  title_status VARCHAR(20) DEFAULT 'clean',
+  transmission VARCHAR(40) DEFAULT '',
+  fuel_type VARCHAR(40) DEFAULT '',
+  location VARCHAR(120) DEFAULT '',
+  status ENUM('available','pending','sold') NOT NULL DEFAULT 'available',
+  main_photo VARCHAR(255),
+  video VARCHAR(255),
+  description TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS vehicle_photos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  vehicle_id INT NOT NULL,
+  filename VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(vehicle_id) REFERENCES vehicles(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS inquiries (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  vehicle_id INT NOT NULL,
+  name VARCHAR(120) NOT NULL,
+  email VARCHAR(190) NOT NULL,
+  phone VARCHAR(60),
+  message TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(vehicle_id) REFERENCES vehicles(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
