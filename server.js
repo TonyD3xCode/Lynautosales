@@ -19,6 +19,13 @@ const app = express();
 
 app.use(helmet({ contentSecurityPolicy: false }));
 
+// Si no usas paquete i18n: helper mínimo
+app.use((req, res, next) => {
+  res.locals.__ = (k) => k;         // devuelve la misma clave
+  res.locals.t  = (k) => k;
+  next();
+});
+
 i18n.configure({
   locales: ['es','en'],
   defaultLocale: 'es',
