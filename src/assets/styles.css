@@ -18,3 +18,27 @@ button,.btn{padding:10px 14px;border-radius:8px;border:1px solid var(--gold);bac
 input[type=text],input[type=email],input[type=password],input[type=number],textarea,select{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px}
 form label{display:block;margin-top:8px;font-weight:600}
 @media (pointer:coarse){input[type=file]{font-size:16px}}
+/* Home / Landing */
+.hero{background:linear-gradient(180deg, #111 0%, #0a0a0a 100%); color:#fff; padding:32px 0}
+.hero-inner{display:grid; grid-template-columns:1.1fr .9fr; gap:24px; align-items:center}
+.hero-copy h1{font-size:40px; line-height:1.1; margin:0 0 8px}
+.hero-copy p{opacity:.9; margin:0 0 16px}
+.hero-ctas{display:flex; gap:10px; margin-bottom:12px}
+.home-search{display:flex; gap:8px}
+.home-search input{flex:1}
+.hero-media img{width:100%; height:auto; border-radius:16px; border:2px solid var(--gold); background:#fff}
+
+.badges{background:#fff; padding:24px 0}
+.grid-3{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px}
+.badge-card{border:1px solid #eee; border-radius:12px; padding:16px; background:#fff}
+
+.featured{padding:16px 0 24px}
+.section-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px}
+
+.cta-wide{background:var(--black); color:#fff; padding:28px 0}
+.cta-box{display:flex; align-items:center; gap:16px}
+.cta-box h3{margin:0}
+@media (max-width: 860px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-media{order:-1}
+}
