@@ -1,35 +1,46 @@
-<!doctype html>
-<html lang="<%= (req.getLocale && req.getLocale()) || 'es' %>">
+<!DOCTYPE html>
+<html lang="<%= (req && req.getLocale ? req.getLocale() : 'es') %>">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="LYN AutoSales: compra y venta de autos usados en Panama City, FL. Inventario verificado y atención inmediata.">
-<meta property="og:title" content="LYN AutoSales">
-<meta property="og:description" content="Encuentra tu próximo auto con facilidad.">
-<meta property="og:image" content="/assets/logo.png">
-<title><%= title ? title + ' · ' : '' %>LYN AutoSales</title>
-<link rel="stylesheet" href="/assets/styles.css">
-<link rel="icon" href="/assets/favicon.ico">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title><%= title ? (title + ' · LYN AutoSales') : 'LYN AutoSales' %></title>
+  <meta name="description" content="LYN AutoSales: compra y venta de autos usados en Panama City, FL. Inventario verificado, precios competitivos y atención inmediata.">
+
+  <!-- Branding -->
+  <link rel="icon" href="/assets/favicon.png" type="image/png">
+  <meta name="theme-color" content="#000000">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<%= title ? (title + ' · LYN AutoSales') : 'LYN AutoSales' %>">
+  <meta property="og:description" content="Encuentra tu próximo auto con facilidad. Atención inmediata por WhatsApp.">
+  <meta property="og:image" content="/assets/hero.webp">
+  <meta property="og:url" content="<%= req ? (req.protocol + '://' + req.get('host') + req.originalUrl) : '' %>">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/styles.css">
+
+  <!-- Preload hero para primera pintura rápida -->
+  <link rel="preload" as="image" href="/assets/hero.webp" type="image/webp">
 </head>
-<body class="theme-lyn">
-<%- include('partials/header') %>
-  <div class="wrap">
-    <div class="brand">
-      <img src="/assets/logo.png" class="logo" alt="LYN AutoSales logo" />
-      <a href="/" class="brand-name">LYN AutoSales</a>
-    </div>
-    <nav>
-      <a href="/inventory"><%= __('common.inventory') %></a>
-      <% if (user) { %>
-        <a href="/admin"><%= __('common.admin') %></a>
-        <a href="/admin/logout"><%= __('common.logout') %></a>
-      <% } else { %>
-        <a href="/admin/login"><%= __('common.login') %></a>
-      <% } %>
-      <a href="?lang=<%= (req.getLocale() === 'es' ? 'en' : 'es') %>" class="lang-toggle"><%= req.getLocale() === 'es' ? 'EN' : 'ES' %></a>
-    </nav>
-  </div
-<main class="wrap"><%- content %></main>
-<footer class="site-footer"><div class="wrap">© <%= new Date().getFullYear() %> LYN AutoSales</div></footer>
+
+<body class="site">
+  <!-- HEADER global -->
+  <%- include('partials/header') %>
+
+  <!-- Contenido de cada página -->
+  <main id="main" class="site-main">
+    <%- content || '' %>
+  </main>
+
+  <!-- FOOTER global -->
+  <%- include('partials/footer') %>
+
+  <!-- JS opcional del sitio -->
+  <script>
+    // Hook simple para toggles o mejoras menores si las necesitas más adelante
+    document.documentElement.classList.add('js');
+  </script>
 </body>
 </html>
