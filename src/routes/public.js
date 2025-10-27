@@ -2,7 +2,6 @@ import express from 'express';
 import { db } from '../services/db.js';
 import { body, validationResult } from 'express-validator';
 import axios from 'axios';
-import { renderAsync } from '../utils/renderAsync.js';
 
 export const router = express.Router();
 
