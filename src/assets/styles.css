@@ -111,3 +111,54 @@ form label{display:block;margin-top:8px;font-weight:600}
   background: #e6c157;
 }
 
+/* ====== AUTH (Login) ====== */
+.auth-wrap{
+  min-height: calc(100vh - 160px); /* espacio header+footer aprox */
+  display:flex; align-items:center; justify-content:center;
+  padding:24px 12px; background:linear-gradient(180deg,#0a0a0a,#111);
+}
+.auth-card{
+  width:100%; max-width:420px;
+  background:#0f0f0f; border:1px solid #1f1f1f;
+  border-radius:16px; padding:22px; color:#fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+.auth-brand{ text-align:center; margin-bottom:12px }
+.auth-brand img{ height:40px; width:auto; display:block; margin:0 auto 8px }
+.auth-brand h1{ margin:4px 0 6px; font-size:22px; font-weight:800 }
+.auth-error{
+  background:#3b0a0a; color:#f6d6d6; border:1px solid #612020;
+  padding:8px 10px; border-radius:10px; font-size:14px; margin-top:8px;
+}
+
+.auth-form{ display:grid; gap:12px; margin-top:10px }
+.field span{ display:block; font-size:12px; color:#cfcfcf; margin-bottom:6px }
+.field input{
+  width:100%; background:#121212; color:#fff;
+  border:1px solid #2a2a2a; border-radius:10px;
+  padding:12px 12px; outline:none;
+}
+.field input:focus{ border-color:#d4af37; box-shadow:0 0 0 2px rgba(212,175,55,.15) }
+
+.password-row{ display:flex; align-items:center; gap:6px }
+.password-row input{ flex:1 }
+.eye{
+  background:#151515; border:1px solid #2a2a2a; color:#d4af37;
+  border-radius:10px; padding:10px 12px; cursor:pointer;
+}
+.eye:hover{ border-color:#3a3a3a }
+
+.auth-actions{ display:flex; justify-content:space-between; align-items:center; font-size:13px; }
+.check{ display:flex; gap:6px; align-items:center; color:#cfcfcf }
+.muted{ color:#cfcfcf; text-decoration:none }
+.muted:hover{ color:#fff }
+
+.auth-btn{
+  width:100%; background:#d4af37; color:#000; border:none;
+  border-radius:12px; padding:12px 14px; font-weight:800; cursor:pointer;
+}
+.auth-btn:hover{ filter:brightness(1.06) }
+
+.auth-footer{ color:#bdbdbd; text-align:center; font-size:12px; margin-top:10px }
+
+
