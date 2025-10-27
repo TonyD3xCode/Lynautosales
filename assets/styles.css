@@ -18,3 +18,9 @@ button,.btn{padding:10px 14px;border-radius:8px;border:1px solid var(--gold);bac
 input[type=text],input[type=email],input[type=password],input[type=number],textarea,select{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px}
 form label{display:block;margin-top:8px;font-weight:600}
 @media (pointer:coarse){input[type=file]{font-size:16px}}
+
+.site-footer{background:#000;color:#fff;margin-top:24px;border-top:2px solid #d4af37}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;padding:20px 0}
+.foot-logo{height:28px;margin-bottom:8px}
+.site-footer a{color:#d4af37;text-decoration:none}
+.footer-copy{text-align:center;padding:10px 0;border-top:1px solid #111;color:#bbb;font-size:14px}
