@@ -7,7 +7,7 @@ import i18n from 'i18n';
 import { fileURLToPath } from 'url';
 import { router as publicRouter } from './src/routes/public.js';
 import { router as adminRouter } from './src/routes/admin.js';
-import { db } from './src/services/db.js';
+import { db, initSchema } from './src/services/db.js';
 
 dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
