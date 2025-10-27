@@ -3,6 +3,12 @@ import { db } from '../services/db.js';
 import { body, validationResult } from 'express-validator';
 import axios from 'axios';
 
+// Render EJS a string sin depender de archivos externos
+const renderAsyncLocal = (req, view, data = {}) =>
+  new Promise((resolve, reject) =>
+    req.app.render(view, data, (err, html) => (err ? reject(err) : resolve(html)))
+  );
+
 export const router = express.Router();
 
 // Home con destacados
@@ -12,7 +18,7 @@ router.get('/', async (req,res,next)=>{
       `SELECT id, year, make, model, price, mileage, main_photo, status
        FROM vehicles ORDER BY created_at DESC LIMIT 8`
     );
-    const content = await renderAsync(req.app, 'home', { featured });
+    const content = await renderAsyncLocal(req.app, 'home', { featured });
     res.render('layout', { title: 'Inicio', content });
   } catch (e) { next(e); }
 });
@@ -39,7 +45,7 @@ router.get('/inventory', async (req,res,next)=>{
     const [[{ 'FOUND_ROWS()': total }]] = await db().query('SELECT FOUND_ROWS()');
     const pages = Math.ceil(total/limit)||1;
 
-    const html = await renderAsync(req.app, 'inventory', { vehicles: rows, page, pages, q, year_min, year_max, status, sort });
+    const html = await renderAsyncLocal(req.app, 'inventory', { vehicles: rows, page, pages, q, year_min, year_max, status, sort });
     res.render('layout', { title: req.__('common.inventory'), content: html });
   } catch(e){ next(e); }
 });
@@ -49,7 +55,7 @@ router.get('/vehicle/:id', async (req,res,next)=>{
     const id = parseInt(req.params.id,10);
     const [[v]] = await db().query('SELECT * FROM vehicles WHERE id=?', [id]);
     const [photos] = await db().query('SELECT filename FROM vehicle_photos WHERE vehicle_id=? ORDER BY id', [id]);
-    const html = await renderAsync(req.app, 'vehicle', { v, photos });
+    const html = await renderAsyncLocal(req.app, 'vehicle', { v, photos });
     res.render('layout', { title: 'Vehículo', content: html });
   } catch(e){ next(e); }
 });
