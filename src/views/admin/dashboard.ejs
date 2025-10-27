@@ -1,5 +1,25 @@
-<h1><%= __('admin.dashboard') %></h1>
-<div class="grid">
-  <div class="card"><div class="card-body"><h3>Vehículos</h3><p>Total: <strong><%= stats.vehicles %></strong></p><p><a class="btn" href="/admin/vehicles">Gestionar</a></p></div></div>
-  <div class="card"><div class="card-body"><h3>Consultas</h3><p>Total: <strong><%= stats.inquiries %></strong></p></div></div>
-</div>
+<section class="wrap pad">
+  <h1>Panel de LYN AutoSales</h1>
+
+  <div class="grid-3">
+    <div class="card"><div class="card-body">
+      <h3>Vehículos</h3>
+      <p>Total: <strong><%= stats.vehicles %></strong></p>
+      <p><a class="btn" href="/admin/vehicles">Gestionar</a></p>
+    </div></div>
+
+    <div class="card"><div class="card-body">
+      <h3>Consultas</h3>
+      <p>Total: <strong><%= stats.inquiries %></strong></p>
+    </div></div>
+
+    <div class="card"><div class="card-body">
+      <h3>Usuarios</h3>
+      <p>Total: <strong><%= stats.users %></strong></p>
+    </div></div>
+  </div>
+
+  <form method="post" action="/admin/logout" style="margin-top:16px">
+    <button class="btn secondary">Cerrar sesión</button>
+  </form>
+</section>
