@@ -42,3 +42,67 @@ form label{display:block;margin-top:8px;font-weight:600}
   .hero-inner{grid-template-columns:1fr}
   .hero-media{order:-1}
 }
+
+.site-header {
+  background: #000;
+  color: #fff;
+  border-bottom: 2px solid #d4af37; /* línea dorada sutil */
+}
+
+.header-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.brand img {
+  height: 40px;
+  width: auto;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.nav-link:hover {
+  opacity: 0.7;
+}
+
+.btn-admin.subtle {
+  background: #111;
+  color: #bbb;
+  border: 1px solid #222;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.btn-admin.subtle:hover {
+  color: #fff;
+  border-color: #444;
+}
+
+.btn-lang {
+  background: #d4af37;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-lang:hover {
+  background: #e6c157;
+}
+
