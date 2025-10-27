@@ -29,6 +29,13 @@ i18n.configure({
 });
 app.use(i18n.init);
 
+// --- middleware para que req esté disponible en las vistas ---
+app.use((req, res, next) => {
+  res.locals.req = req;                 // para <%= req.getLocale() %> y más
+  res.locals.user = req.session?.user || null;  // opcional
+  next();
+});
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src', 'views'));
 
