@@ -4,6 +4,12 @@ import { db } from '../services/db.js';
 
 export const router = express.Router();
 
+// Render EJS a string sin callbacks (helper local para admin)
+const renderAsyncLocal = (req, view, data = {}) =>
+  new Promise((resolve, reject) =>
+    req.app.render(view, data, (err, html) => (err ? reject(err) : resolve(html)))
+  );
+
 // middleware auth básico
 function requireAuth(req, res, next) {
   if (req.session?.user && ['admin','manager'].includes(req.session.user.role)) return next();
