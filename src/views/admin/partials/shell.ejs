@@ -1,0 +1,28 @@
+<div class="admin-shell">
+  <aside class="admin-aside">
+    <div class="brand-mini">
+      <img src="/assets/logo-mini.svg" alt="LYN" />
+      <span>LYN AutoSales</span>
+    </div>
+    <nav class="admin-nav">
+      <% (adminMenu || []).forEach(it => { %>
+        <a href="<%= it.href %>" class="nav-item <%= (currentPath||'').startsWith(it.href)?'active':'' %>">
+          <span class="ico"><%= it.icon %></span> <%= it.label %>
+        </a>
+      <% }) %>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div class="crumbs"><%= pageTitle || 'Escritorio' %></div>
+      <div class="userbox">
+        <span><%= (currentUser && currentUser.email) || '' %></span>
+        <form method="post" action="/admin/logout"><button class="btn small">Salir</button></form>
+      </div>
+    </div>
+    <div class="admin-content">
+      <%- body %>
+    </div>
+  </main>
+</div>
