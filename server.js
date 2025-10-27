@@ -8,6 +8,8 @@ import { fileURLToPath } from 'url';
 import { router as publicRouter } from './src/routes/public.js';
 import { router as adminRouter } from './src/routes/admin.js';
 import { db, initSchema } from './src/services/db.js';
+await db().getConnection().then(c => c.release());
+await initSchema();
 
 dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
