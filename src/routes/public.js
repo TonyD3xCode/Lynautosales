@@ -55,6 +55,27 @@ router.get('/vehicle/:id', async (req,res,next)=>{
   } catch(e){ next(e); }
 });
 
+router.get('/about', (req,res)=> {
+  res.render('layout', { title:'Sobre nosotros',
+    content: `<section class="wrap pad"><h1>Sobre LYN AutoSales</h1>
+      <p>Concesionario en Panama City, FL. Revisión de títulos, transparencia y atención rápida.</p>
+    </section>` });
+});
+
+router.get('/contact', (req,res)=> {
+  res.render('layout', { title:'Contáctanos',
+    content: `<section class="wrap pad"><h1>Contáctanos</h1>
+      <p>WhatsApp: <a href="https://wa.me/1XXXXXXXXXX" target="_blank">+1 XXX</a></p>
+      <p>Email: ventas@lynautosales.com</p>
+      <form class="contact-form" method="post" action="/contact">
+        <input name="name" placeholder="Nombre" required>
+        <input name="email" type="email" placeholder="Email" required>
+        <textarea name="message" placeholder="Mensaje" required></textarea>
+        <button class="btn">Enviar</button>
+      </form>
+    </section>` });
+});
+
 router.post('/vehicle/:id',
   body('name').isLength({min:2}), body('email').isEmail(),
   async (req,res,next)=>{
