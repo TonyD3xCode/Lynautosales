@@ -15,6 +15,13 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+import { ensureAuth, buildAdminMenu } from './src/middleware/authz.js';
+
+app.use('/admin', ensureAuth, (req,res,next)=>{
+  res.locals.adminMenu = buildAdminMenu(req.session.user?.role || 'seller');
+  next();
+});
+
 const app = express();
 
 app.use(helmet({ contentSecurityPolicy: false }));
