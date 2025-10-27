@@ -25,13 +25,13 @@ export function db() {
 export async function initSchema() {
   const conn = await db().getConnection();
   try {
-    await conn.query(`
-      CREATE TABLE IF NOT EXISTS _migrations(
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(190) UNIQUE,
-        applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-    `);
+    await db().query(`
+  CREATE TABLE IF NOT EXISTS site_settings (
+    \`key\` VARCHAR(100) PRIMARY KEY,
+    \`value\` TEXT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+`);
     const schema = fs.readFileSync(path.resolve('schema.sql'), 'utf8');
     await conn.query(schema); // usa CREATE TABLE IF NOT EXISTS en schema.sql
   } finally {
