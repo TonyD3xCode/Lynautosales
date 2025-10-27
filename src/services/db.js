@@ -38,3 +38,4 @@ export async function initSchema() {
     conn.release();
   }
 }
+export default pool;
