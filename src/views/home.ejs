@@ -1,2 +1,61 @@
-<h1><%= __('home.headline') %></h1>
-<p><a class="btn" href="/inventory"><%= __('home.cta') %></a></p>
+<!-- src/views/home.ejs -->
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <h1>Tu próximo auto está aquí</h1>
+      <p>Inventario verificado, precios competitivos y atención inmediata en Panama City, FL.</p>
+      <div class="hero-ctas">
+        <a class="btn" href="/inventory">Ver inventario</a>
+        <a class="btn secondary" href="https://wa.me/1850XXXXXXX?text=Hola%20LYN%20AutoSales,%20quiero%20información" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+      <form class="home-search" method="get" action="/inventory">
+        <input name="q" placeholder="Busca por marca, modelo o VIN">
+        <button class="btn">Buscar</button>
+      </form>
+    </div>
+    <div class="hero-media">
+      <img src="/assets/hero.webp" alt="LYN AutoSales" loading="eager">
+    </div>
+  </div>
+</section>
+
+<section class="badges">
+  <div class="wrap grid-3">
+    <div class="badge-card"><h3>Ahorra tiempo</h3><p>Proceso ágil, respuesta al instante.</p></div>
+    <div class="badge-card"><h3>Vehículos revisados</h3><p>Transparencia en título, VIN y millaje.</p></div>
+    <div class="badge-card"><h3>Financiamiento</h3><p>Asesoría para opciones disponibles.</p></div>
+  </div>
+</section>
+
+<section class="featured">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Nuevos en inventario</h2>
+      <a href="/inventory">Ver todo</a>
+    </div>
+    <div class="grid">
+      <% (featured || []).forEach(v => { %>
+        <div class="card">
+          <img src="/uploads/images/<%= v.main_photo || 'placeholder.jpg' %>" alt="<%= v.year %> <%= v.make %> <%= v.model %>">
+          <div class="card-body">
+            <div class="badge"><%= v.status.toUpperCase() %></div>
+            <h3><%= v.year %> <%= v.make %> <%= v.model %></h3>
+            <p>Precio $<%= Number(v.price).toLocaleString() %> • Millas <%= Number(v.mileage).toLocaleString() %></p>
+            <p><a class="btn" href="/vehicle/<%= v.id %>">Ver detalles</a></p>
+          </div>
+        </div>
+      <% }) %>
+      <% if (!featured || !featured.length) { %>
+        <p class="alert">Aún no hay vehículos. Agrega desde el panel Admin.</p>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<section class="cta-wide">
+  <div class="wrap cta-box">
+    <h3>¿Quieres vender o cambiar tu auto?</h3>
+    <p>Contáctanos y recibe una oferta.</p>
+    <a class="btn" href="https://wa.me/1850XXXXXXX?text=Quiero%20vender%20mi%20auto" target="_blank" rel="noopener">Escríbenos</a>
+  </div>
+</section>
