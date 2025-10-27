@@ -89,12 +89,11 @@ app.use('/admin', ensureAuth, (req, res, next) => {
 app.use('/', publicRouter);
 app.use('/admin', adminRouter);
 
-// 404
-app.use((req, res) => {
-  res.status(404).render('layout', {
-    title: '404',
-    content: `<section class="wrap pad"><h2>${res.__('common.not_found')}</h2></section>`,
-    user: req.session?.user || null
+app.use((req,res)=>{
+  res.status(404).render('layout', { 
+    title: '404', 
+    content: `<h2>${req.__('common.not_found')}</h2>`,
+    user: req.session.user || null
   });
 });
 
