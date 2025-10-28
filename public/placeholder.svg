@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#1e1e1e"/>
+  <rect y="560" width="800" height="40" fill="#f6c20a"/>
+  <text x="20" y="588" font-family="Inter, Arial" font-size="18" font-weight="700" fill="#000">Vehicle Image</text>
+</svg>
