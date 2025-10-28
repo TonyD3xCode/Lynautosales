@@ -1,34 +1,47 @@
-import express from 'express';
-import { renderAsync } from '../utils/renderAsync.js';
+import { Router } from 'express';
+import { renderLayout } from '../utils/renderAsync.js';
+import { getFeaturedVehicles, searchVehicles } from '../services/vehicles.js';
 
-export const router = express.Router();
+export const router = Router();
 
+// Home
 router.get('/', async (req, res, next) => {
   try {
-    // 🔹 Usa req.__() para obtener traducciones desde es.json / en.json
-    const html = await renderAsync(res, 'home', {
-      title: req.__('home.meta_title') || 'LYN AutoSales',
-      home: {
-        title: req.__('home.title'),
-        subtitle: req.__('home.subtitle'),
-        view_inventory: req.__('home.view_inventory'),
-        whatsapp_cta: req.__('home.whatsapp_cta'),
-        advantages: {
-          time: req.__('home.advantages.time'),
-          reviewed: req.__('home.advantages.reviewed'),
-          finance: req.__('home.advantages.finance'),
-        },
-        new_inventory: req.__('home.new_inventory'),
-        sell_offer: req.__('home.sell_offer'),
-      },
-      featured: [],
-      latest: [],
+    const featured = await getFeaturedVehicles(6);
+    await renderLayout(res, 'home', {
+      title: req.__('home.meta.title'),
+      meta_description: req.__('home.meta.description'),
+      featured
     });
-
-    res.send(html);
-  } catch (err) {
-    next(err);
-  }
+  } catch (err) { next(err); }
 });
 
-export default router;
+// Inventario
+router.get('/inventory', async (req, res, next) => {
+  try {
+    const q = (req.query.q || '').trim();
+    const results = await searchVehicles(q);
+    await renderLayout(res, 'inventory', {
+      title: req.__('inventory.title'),
+      q, results
+    });
+  } catch (err) { next(err); }
+});
+
+// Sobre nosotros
+router.get('/about', async (req, res, next) => {
+  try {
+    await renderLayout(res, 'about', {
+      title: req.__('about.title')
+    });
+  } catch (err) { next(err); }
+});
+
+// Contacto
+router.get('/contact', async (req, res, next) => {
+  try {
+    await renderLayout(res, 'contact', {
+      title: req.__('contact.title')
+    });
+  } catch (err) { next(err); }
+});
