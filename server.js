@@ -47,15 +47,6 @@ app.use(session({
   }
 }));
 
-// i18n (si no hay locales aún, no rompe)
-i18n.configure({
-  locales: ['es','en'],
-  defaultLocale: 'es',
-  directory: path.join(__dirname, 'src', 'locales'),
-  objectNotation: true,
-});
-app.use(i18n.init);
-
 // helpers para vistas
 app.use((req, res, next) => {
   res.locals.req  = req;
@@ -65,9 +56,24 @@ app.use((req, res, next) => {
   next();
 });
 
+// i18n (si no hay locales aún, no rompe)
+i18n.configure({
+  locales: ['es', 'en'],
+  defaultLocale: 'es',
+  directory: path.join(__dirname, 'src', 'locales'),
+  queryParameter: 'lang',
+  cookie: 'lang',
+  objectNotation: true
+});
+app.use(i18n.init);
+
 // estáticos
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use('/assets',  express.static(path.join(__dirname, 'src', 'assets')));
+app.use('/assets', express.static(path.join(__dirname, 'src', 'assets')));
+app.use('/', app.use('/assets', express.static(path.join(__dirname, 'src', 'assets')));
+// Rutas públicas del sitio
+app.use('/', publicRouter);
+app.use('/admin', adminRouter);
 
 // DB warm-up + schema
 try {
@@ -76,9 +82,6 @@ try {
 } catch (e) {
   console.error('DB init error:', e);
 }
-
-// Rutas públicas del sitio
-app.use('/', publicRouter);
 
 // Admin: primero dejar pasar login/logout sin auth, luego proteger el resto
 app.use('/admin', allowAnonAdminPaths, adminRouter);   // /admin/login y /admin/logout sin bloqueo
