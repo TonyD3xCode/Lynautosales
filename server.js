@@ -1,10 +1,10 @@
 import express from 'express';
 import session from 'express-session';
 import path from 'path';
+import i18n from 'i18n';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
 import { fileURLToPath } from 'url';
-import i18n from 'i18n';
 
 import { router as publicRouter } from './src/routes/public.js';
 import { router as adminRouter } from './src/routes/admin.js';
