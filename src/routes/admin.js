@@ -10,6 +10,16 @@ const renderAsyncLocal = (req, view, data = {}) =>
     req.app.render(view, data, (err, html) => (err ? reject(err) : resolve(html)))
   );
 
+// tras validar credenciales:
+req.session.user = { id: user.id, email: user.email, role: user.role };
+req.session.save(err => {
+  if (err) {
+    console.error('session save error', err);
+    return res.status(500).send('Error de sesión');
+  }
+  return res.redirect('/admin');
+});
+
 // middleware auth básico
 function requireAuth(req, res, next) {
   if (req.session?.user && ['admin','manager'].includes(req.session.user.role)) return next();
