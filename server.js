@@ -1,9 +1,9 @@
 import express from 'express';
 import session from 'express-session';
 import path from 'path';
-import i18n from 'i18n';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
+import i18n from 'i18n';
 import { fileURLToPath } from 'url';
 
 import { router as publicRouter } from './src/routes/public.js';
@@ -66,6 +66,13 @@ i18n.configure({
   objectNotation: true
 });
 app.use(i18n.init);
+
+// Middleware para pasar variables a las vistas
+app.use((req, res, next) => {
+  res.locals.__ = res.__;
+  res.locals.req = req;
+  next();
+});
 
 // estáticos
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
