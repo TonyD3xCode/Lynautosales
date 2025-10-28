@@ -11,6 +11,18 @@
     "language": "Language",
     "search": "Search",
     "loading": "Loading...",
+    "menu": {
+      "inventory": "Inventory",
+      "about": "About",
+      "contact": "Contact",
+      "login": "Log in",
+      "admin": "Admin",
+      "logout": "Log out"
+    },
+    "lang": {
+      "es": "ES",
+      "en": "EN"
+    },
     "error": "An error occurred"
   },
 
