@@ -1,17 +1,24 @@
- <!doctype html>
+<!DOCTYPE html>
 <html lang="<%= (req.getLocale && req.getLocale()) || 'es' %>">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title><%= title ? title + ' · ' : '' %>LYN AutoSales</title>
-<link rel="stylesheet" href="/assets/styles.css">
-<link rel="icon" href="/assets/favicon.ico">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> - LYN AutoSales</title>
+  <link rel="icon" href="/assets/favicon.ico">
+  <link rel="stylesheet" href="/assets/styles.css">
 </head>
-<body class="theme-lyn">
-<%- include('partials/header') %>
-<main class="container">
-    <%- body %>
+<body>
+
+  <!-- HEADER global -->
+  <%- include('partials/header') %>
+
+  <!-- Contenido dinámico -->
+  <main>
+    <%- content %>
   </main>
-<%- include('partials/footer') %>
+
+  <!-- FOOTER global -->
+  <%- include('partials/footer') %>
+
 </body>
 </html>
