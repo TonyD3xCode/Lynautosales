@@ -1,25 +1,76 @@
-<header class="main-header">
-  <div class="container header-flex">
-    <div class="logo">
-      <a href="/"><span class="brand">LYN AutoSales</span></a>
-    </div>
+<!-- src/views/partials/header.ejs -->
+<header class="site-header">
+  <nav class="nav container">
+    <a class="brand" href="/">
+      <img src="/assets/logo.svg" alt="LYN AutoSales" class="brand__logo" />
+    </a>
 
-    <nav class="nav-menu">
-      <ul>
-        <li><a href="/inventory"><%= __('menu.inventory') %></a></li>
-        <li><a href="/about"><%= __('menu.about') %></a></li>
-        <li><a href="/contact"><%= __('menu.contact') %></a></li>
-        <% if (user) { %>
-          <li><a href="/admin"><%= __('menu.admin') %></a></li>
-          <li><a href="/auth/logout"><%= __('menu.logout') %></a></li>
-        <% } else { %>
-          <li><a href="/auth/login"><%= __('menu.login') %></a></li>
-        <% } %>
-        <li class="lang-switch">
-          <a href="?lang=es" class="<%= req.getLocale() === 'es' ? 'active' : '' %>">ES</a> |
-          <a href="?lang=en" class="<%= req.getLocale() === 'en' ? 'active' : '' %>">EN</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
+    <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false" id="navToggle">
+      <!-- ícono hamburguesa -->
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    </button>
+
+    <ul class="nav__links" id="navMenu">
+      <li><a href="/inventory"><%= __('common.menu.inventory') %></a></li>
+      <li><a href="/about"><%= __('common.menu.about') %></a></li>
+      <li><a href="/contact"><%= __('common.menu.contact') %></a></li>
+    </ul>
+
+    <div class="nav__actions">
+      <!-- Switch de idioma -->
+      <div class="lang">
+        <a class="lang__link <%= req.getLocale() === 'es' ? 'is-active':'' %>" href="?lang=es">ES</a>
+        <span class="lang__sep">|</span>
+        <a class="lang__link <%= req.getLocale() === 'en' ? 'is-active':'' %>" href="?lang=en">EN</a>
+      </div>
+
+      <% const isAuth = !!user; %>
+      <% if (!isAuth) { %>
+        <a href="/auth/login" class="btn btn--icon" aria-label="<%= __('common.menu.login') %>">
+          <!-- ícono usuario -->
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5Z" fill="currentColor"/></svg>
+          <span class="btn__label"><%= __('common.menu.login') %></span>
+        </a>
+      <% } else { 
+           const name = user.name || user.email || '';
+           const initials = name.trim().split(/\s+/).slice(0,2).map(s => s[0]).join('').toUpperCase();
+      %>
+        <div class="user">
+          <button class="user__btn" id="userBtn" aria-haspopup="menu" aria-expanded="false">
+            <div class="avatar" aria-hidden="true"><%= initials %></div>
+          </button>
+          <ul class="user__menu" id="userMenu" role="menu">
+            <li role="none"><a role="menuitem" href="/profile"><%= __('common.menu.profile') || 'Perfil' %></a></li>
+            <li role="none"><a role="menuitem" href="/admin"><%= __('common.menu.admin') %></a></li>
+            <li role="none"><a role="menuitem" href="/auth/logout"><%= __('common.menu.logout') %></a></li>
+          </ul>
+        </div>
+      <% } %>
+    </div>
+  </nav>
 </header>
+
+<script>
+  // Toggle menú móvil
+  (function(){
+    const toggle = document.getElementById('navToggle');
+    const menu = document.getElementById('navMenu');
+    if (toggle && menu) {
+      toggle.addEventListener('click', () => {
+        const open = menu.classList.toggle('is-open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
+    // Dropdown usuario
+    const userBtn = document.getElementById('userBtn');
+    const userMenu = document.getElementById('userMenu');
+    if (userBtn && userMenu) {
+      userBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = userMenu.classList.toggle('is-open');
+        userBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      document.addEventListener('click', () => userMenu.classList.remove('is-open'));
+    }
+  })();
+</script>
