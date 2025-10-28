@@ -1,8 +1,8 @@
-import Header from '@/components/Header';
-import Hero from '@/components/Hero';
-import FeatureCards from '@/components/FeatureCards';
-import InventoryTeaser from '@/components/InventoryTeaser';
-import Footer from '@/components/Footer';
+import Header from '../src/components/Header';
+import Hero from '../src/components/Hero';
+import FeatureCards from '../src/components/FeatureCards';
+import InventoryTeaser from '../src/components/InventoryTeaser';
+import Footer from '../src/components/Footer';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export default function Home() {
