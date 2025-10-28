@@ -7,7 +7,7 @@
   <% if (typeof meta_description === 'string' && meta_description) { %>
     <meta name="description" content="<%= meta_description %>">
   <% } %>
-  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/styles.css?<%= Date.now() %>">
 </head>
 <body class="<%= (user && user.role) ? ('role-' + user.role) : 'role-guest' %>">
 
