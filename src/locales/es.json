@@ -15,6 +15,7 @@
   },
   "menu": {
       "inventory": "Inventario",
+      "profile": "Perfil",
       "about": "Sobre nosotros",
       "contact": "Contáctanos",
       "login": "Ingresar",
