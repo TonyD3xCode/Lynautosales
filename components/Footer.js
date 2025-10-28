@@ -6,5 +6,5 @@ export default function Footer() {
         <p>Panama City, FL</p>
       </div>
     </footer>
-  );
+  )
 }
