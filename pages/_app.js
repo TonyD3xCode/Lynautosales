@@ -1,19 +1,17 @@
-import type { AppProps } from 'next/app';
+import '@/styles/globals.css';
+import { appWithTranslation } from 'next-i18next';
 import Head from 'next/head';
-import { appWithTranslation } from '../lib/i18n';
-import '../styles/globals.css';
 
-function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <link rel="preconnect" href="https://fonts.googleapis.com"/>
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
         <title>LYN AutoSales</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Component {...pageProps} />
     </>
   );
 }
+
 export default appWithTranslation(App);
