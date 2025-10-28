@@ -47,15 +47,6 @@ app.use(session({
   }
 }));
 
-// helpers para vistas
-app.use((req, res, next) => {
-  res.locals.req  = req;
-  res.locals.__   = req.__.bind(req);
-  res.locals.t    = req.__.bind(req);
-  res.locals.user = req.session?.user || null;
-  next();
-});
-
 // i18n (si no hay locales aún, no rompe)
 i18n.configure({
   locales: ['es', 'en'],
