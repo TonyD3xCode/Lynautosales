@@ -1,120 +1,105 @@
-<% const home || {}; %>
-
+<!-- src/views/home.ejs -->
 <%
-  // Helpers seguros para i18n y datos opcionales
-  const t = (typeof __ === 'function') ? __ : (k)=>k;
-  const safe = (v, def='') => (typeof v !== 'undefined' && v !== null) ? v : def;
-
-  // Datos esperados con fallback
-  const list = Array.isArray(featured) ? featured : [];
-  const whatsappUrl = safe(home && home.whatsapp, 'https://wa.me/1XXXXXXXXXX');
+  // Helpers seguros
+  const safeObj  = v => (v && typeof v === 'object') ? v : {};
+  const safeStr  = v => (typeof v === 'string' ? v : '');
+  const safeNum  = v => (typeof v === 'number' ? v : 0);
+  const asArray  = v => (Array.isArray(v) ? v : []);
+  const h        = safeObj(home);
+  const featured = asArray(locals.featured || featured);
 %>
 
-<!-- Hero -->
-<section class="hero">
-  <div class="wrap hero-inner">
+<section class="wrap hero">
+  <div class="hero-inner">
     <div class="hero-copy">
-      <h1><%= t('home.title') || 'Tu próximo auto está aquí' %></h1>
-      <p><%= t('home.subtitle') || 'Inventario verificado, precios competitivos y atención inmediata en Panama City, FL.' %></p>
+      <h1><%= safeStr(h.title) || 'Tu próximo auto está aquí' %></h1>
+      <p><%= safeStr(h.subtitle) || 'Inventario verificado, precios competitivos y atención inmediata en Panama City, FL.' %></p>
 
       <div class="hero-actions">
-        <a class="btn" href="/inventory"><%= t('home.view_inventory') || 'Ver inventario' %></a>
-        <a class="btn btn-ghost" href="<%= whatsappUrl %>" target="_blank" rel="noopener">
-          <%= t('home.whatsapp') || 'WhatsApp' %>
+        <a class="btn" href="/inventory"><%= safeStr(h.view_inventory) || 'Ver inventario' %></a>
+        <a class="btn btn-ghost" href="<%= safeStr(h.whatsapp_link) || 'https://wa.me/1XXXXXXXXXX' %>" target="_blank" rel="noopener">
+          <%= safeStr(h.whatsapp) || 'WhatsApp' %>
         </a>
       </div>
-
-      <form class="search" action="/inventory" method="get">
-        <input
-          type="text"
-          name="q"
-          placeholder="<%= t('home.search_placeholder') || 'Busca por marca, modelo o VIN' %>">
-        <button class="btn" type="submit"><%= t('common.search') || 'Buscar' %></button>
-      </form>
     </div>
 
-    <div class="hero-art">
-      <!-- Imagen principal del hero (usa tu webp optimizado) -->
-      <img
-        src="/assets/img/hero.webp"
-        alt="LYN AutoSales - Tu próximo auto"
-        loading="eager"
-        width="720"
-        height="480">
-    </div>
+    <!-- Buscador rápido -->
+    <form class="search" action="/inventory" method="get" autocomplete="off">
+      <input
+        type="text"
+        name="q"
+        placeholder="<%= safeStr(h.search_ph) || 'Busca por marca, modelo o VIN' %>">
+      <button class="btn" type="submit"><%= safeStr(h.search_btn) || 'Buscar' %></button>
+    </form>
   </div>
 </section>
 
-<!-- Beneficios -->
-<section class="features">
-  <div class="wrap grid-3">
-    <div class="card">
-      <h3><%= t('home.benefit_fast') || 'Ahorra tiempo' %></h3>
-      <p><%= t('home.benefit_fast_desc') || 'Proceso ágil, respuesta al instante.' %></p>
-    </div>
-    <div class="card">
-      <h3><%= t('home.benefit_checked') || 'Vehículos revisados' %></h3>
-      <p><%= t('home.benefit_checked_desc') || 'Transparencia en título, VIN y millaje.' %></p>
-    </div>
-    <div class="card">
-      <h3><%= t('home.benefit_finance') || 'Financiamiento' %></h3>
-      <p><%= t('home.benefit_finance_desc') || 'Asesoría para opciones disponibles.' %></p>
-    </div>
+<!-- Beneficios cortos -->
+<section class="wrap features">
+  <div class="grid grid-3">
+    <article class="feature">
+      <h3>Ahorra tiempo</h3>
+      <p>Proceso ágil, respuesta al instante.</p>
+    </article>
+    <article class="feature">
+      <h3>Vehículos revisados</h3>
+      <p>Transparencia en título, VIN y millaje.</p>
+    </article>
+    <article class="feature">
+      <h3>Financiamiento</h3>
+      <p>Asesoría para opciones disponibles.</p>
+    </article>
   </div>
 </section>
 
-<!-- Nuevos en inventario -->
-<section class="section">
-  <div class="wrap">
-    <div class="section-head">
-      <h2><%= t('home.new_arrivals') || 'Nuevos en inventario' %></h2>
-      <a class="link" href="/inventory"><%= t('home.view_all') || 'Ver todo' %></a>
-    </div>
+<!-- Destacados -->
+<section class="wrap">
+  <header class="section-head">
+    <h2><%= safeStr(h.featured_title) || 'Nuevos en inventario' %></h2>
+    <a class="btn btn-ghost" href="/inventory"><%= safeStr(h.view_all) || 'Ver todo' %></a>
+  </header>
 
-    <% if (list.length === 0) { %>
-      <p class="muted">
-        <%= t('home.no_vehicles') || 'Aún no hay vehículos. Agrega desde el panel Admin.' %>
-      </p>
-    <% } else { %>
-      <div class="grid-cards">
-        <% (list || []).forEach(v => { 
-             const photo = v.main_photo || '/assets/img/placeholder.webp';
-             const title = `${safe(v.year,'') } ${safe(v.make,'')} ${safe(v.model,'')}`.trim();
-        %>
-          <article class="card car">
-            <div class="car-media">
-              <img
-                src="<%= photo %>"
-                alt="<%= title %>"
-                loading="lazy"
-                width="480"
-                height="320">
+  <% if (featured.length === 0) { %>
+    <p>Aún no hay vehículos. Agrega desde el panel Admin.</p>
+  <% } else { %>
+    <div class="grid grid-3 cards">
+      <% featured.forEach(v => { %>
+        <article class="card">
+          <a class="card-media" href="/inventory/<%= v.id %>">
+            <img
+              src="/uploads/images/<%= v.main_photo || 'placeholder.jpg' %>"
+              alt="<%= [v.year, v.make, v.model].filter(Boolean).join(' ') %>">
+          </a>
+          <div class="card-body">
+            <h3 class="card-title">
+              <a href="/inventory/<%= v.id %>">
+                <%= [v.year, v.make, v.model].filter(Boolean).join(' ') %>
+              </a>
+            </h3>
+            <p class="card-meta">
+              <span><%= v.mileage ? v.mileage.toLocaleString('en-US') : '—' %> mi</span>
+              ·
+              <span><%= v.vin || 'VIN —' %></span>
+            </p>
+            <p class="card-price">
+              <%= (v.price != null) ? ('$' + Number(v.price).toLocaleString('en-US')) : 'Consultar' %>
+            </p>
+            <div class="card-actions">
+              <a class="btn" href="/inventory/<%= v.id %>">Detalles</a>
+              <a class="btn btn-ghost" href="https://wa.me/1XXXXXXXXXX?text=<%= encodeURIComponent('Hola, me interesa el ' + [v.year,v.make,v.model].filter(Boolean).join(' ')) %>" target="_blank" rel="noopener">WhatsApp</a>
             </div>
-            <div class="car-body">
-              <h3 class="car-title"><%= title || 'Vehículo' %></h3>
-              <p class="car-meta">
-                <%= safe(v.mileage_display, '') %>
-                <% if (v.transmission) { %> · <%= v.transmission %> <% } %>
-                <% if (v.fuel) { %> · <%= v.fuel %> <% } %>
-              </p>
-              <div class="car-actions">
-                <a class="btn btn-sm" href="/inventory/<%= v.id %>"><%= t('home.view_details') || 'Ver detalles' %></a>
-              </div>
-            </div>
-          </article>
-        <% }) %>
-      </div>
-    <% } %>
-  </div>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
 </section>
 
-<!-- CTA vender/cambiar -->
-<section class="cta">
-  <div class="wrap cta-inner">
-    <div>
-      <h2><%= t('home.sell_title') || '¿Quieres vender o cambiar tu auto?' %></h2>
-      <p><%= t('home.sell_subtitle') || 'Contáctanos y recibe una oferta.' %></p>
-      <a class="btn" href="/contact"><%= t('home.write_us') || 'Escríbenos' %></a>
-    </div>
+<!-- CTA vender -->
+<section class="wrap cta">
+  <div class="cta-inner">
+    <h2>¿Quieres vender o cambiar tu auto?</h2>
+    <p>Contáctanos y recibe una oferta.</p>
+    <a class="btn" href="/contact">Escríbenos</a>
   </div>
 </section>
