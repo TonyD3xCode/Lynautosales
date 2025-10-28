@@ -11,9 +11,9 @@
     </button>
 
     <ul class="nav__links" id="navMenu">
-      <li><a href="/inventory"><%= __('common.menu.inventory') %></a></li>
-      <li><a href="/about"><%= __('common.menu.about') %></a></li>
-      <li><a href="/contact"><%= __('common.menu.contact') %></a></li>
+      <li><a href="/inventory"><%= __('menu.inventory') %></a></li>
+      <li><a href="/about"><%= __('menu.about') %></a></li>
+      <li><a href="/contact"><%= __('menu.contact') %></a></li>
     </ul>
 
     <div class="nav__actions">
@@ -26,10 +26,10 @@
 
       <% const isAuth = !!user; %>
       <% if (!isAuth) { %>
-        <a href="/auth/login" class="btn btn--icon" aria-label="<%= __('common.menu.login') %>">
+        <a href="/auth/login" class="btn btn--icon" aria-label="<%= __('menu.login') %>">
           <!-- ícono usuario -->
           <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5Z" fill="currentColor"/></svg>
-          <span class="btn__label"><%= __('common.menu.login') %></span>
+          <span class="btn__label"><%= __('menu.login') %></span>
         </a>
       <% } else { 
            const name = user.name || user.email || '';
@@ -40,9 +40,9 @@
             <div class="avatar" aria-hidden="true"><%= initials %></div>
           </button>
           <ul class="user__menu" id="userMenu" role="menu">
-            <li role="none"><a role="menuitem" href="/profile"><%= __('common.menu.profile') || 'Perfil' %></a></li>
-            <li role="none"><a role="menuitem" href="/admin"><%= __('common.menu.admin') %></a></li>
-            <li role="none"><a role="menuitem" href="/auth/logout"><%= __('common.menu.logout') %></a></li>
+            <li role="none"><a role="menuitem" href="/profile"><%= __('menu.profile') || 'Perfil' %></a></li>
+            <li role="none"><a role="menuitem" href="/admin"><%= __('menu.admin') %></a></li>
+            <li role="none"><a role="menuitem" href="/auth/logout"><%= __('menu.logout') %></a></li>
           </ul>
         </div>
       <% } %>
