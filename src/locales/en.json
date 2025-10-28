@@ -15,6 +15,7 @@
   },
   "menu": {
       "inventory": "Inventory",
+      "profile": "Profile",
       "about": "About",
       "contact": "Contact",
       "login": "Log in",
