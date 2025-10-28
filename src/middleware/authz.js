@@ -24,9 +24,10 @@ const ROLE_CAPS = {
 };
 
 export function ensureAuth(req, res, next) {
-  if (!req.session?.user) return res.redirect('/admin/login');
-  res.locals.currentUser = req.session.user;
-  next();
+  if (req.session && req.session.user) {
+    return next();
+  }
+  return res.redirect('/admin/login');
 }
 
 export function can(cap) {
