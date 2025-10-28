@@ -46,31 +46,13 @@ app.use(session({
     secure: process.env.NODE_ENV === 'production' // con trust proxy = OK en Railway
   }
 }));
-
-// i18n (si no hay locales aún, no rompe)
-i18n.configure({
-  locales: ['es', 'en'],
-  defaultLocale: 'es',
-  directory: path.join(__dirname, 'src', 'locales'),
-  queryParameter: 'lang',
-  cookie: 'lang',
-  objectNotation: true
-});
-app.use(i18n.init);
-
-// Middleware para pasar variables a las vistas
-app.use((req, res, next) => {
-  res.locals.__ = res.__;
-  res.locals.req = req;
-  next();
-});
-
 // estáticos
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/assets', express.static(path.join(__dirname, 'src', 'assets')));
 // Rutas públicas del sitio
 app.use('/', publicRouter);
 app.use('/admin', adminRouter);
+
 
 // DB warm-up + schema
 try {
@@ -91,6 +73,29 @@ app.use('/admin', ensureAuth, (req, res, next) => {    // del resto hacia abajo,
 app.use((req, res) => {
   res.status(404).render('pages/404.ejs', { title: '404' });
 });
+
+// i18n config
+i18n.configure({
+  locales: ['es','en'],
+  defaultLocale: 'es',
+  directory: path.join(__dirname, 'src', 'locales'),
+  queryParameter: 'lang',
+  cookie: 'lang',
+  objectNotation: true
+});
+app.use(i18n.init);
+
+// Helpers disponibles en EJS
+app.use((req, res, next) => {
+  // i18n en vistas: __ y getLocale
+  res.locals.__ = req.__.bind(req);
+  res.locals.locale = req.getLocale();
+  // usuario y request si los necesitas en partials
+  res.locals.user = req.session?.user || null;
+  res.locals.req = req;
+  next();
+});
+
 
 // Start
 const PORT = process.env.PORT || 8080;
