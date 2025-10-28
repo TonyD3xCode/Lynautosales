@@ -1,231 +1,147 @@
 {
-  "brand": {
-    "name": "LYN AutoSales",
-    "tagline": "Compra y venta de autos en Panama City, FL"
-  },
-
   "common": {
-    "home": "Inicio",
+    "brand": "LYN AutoSales",
     "inventory": "Inventario",
     "about": "Sobre nosotros",
     "contact": "Contáctanos",
+    "admin": "Panel",
     "login": "Ingresar",
     "logout": "Cerrar sesión",
-    "profile": "Perfil",
+    "not_found": "No encontrado",
+    "language": "Idioma",
     "search": "Buscar",
-    "search_placeholder": "Busca por marca, modelo o VIN",
-    "view_all": "Ver todo",
-    "view": "Ver",
-    "edit": "Editar",
-    "create": "Crear",
+    "loading": "Cargando...",
+    "error": "Ocurrió un error"
+  },
+
+  "buttons": {
     "save": "Guardar",
     "cancel": "Cancelar",
+    "create": "Crear",
+    "edit": "Editar",
     "delete": "Eliminar",
-    "yes": "Sí",
-    "no": "No",
-    "not_found": "No encontrado",
-    "error": "Ocurrió un error",
-    "success": "Operación realizada con éxito",
+    "update": "Actualizar",
+    "view": "Ver",
+    "view_all": "Ver todo",
     "back": "Volver",
-    "whatsapp": "WhatsApp",
-    "language": "Idioma",
-    "es": "Español",
-    "en": "Inglés"
+    "continue": "Continuar"
   },
 
-  "layout": {
-    "meta_title_suffix": "· LYN AutoSales",
-    "meta_description": "LYN AutoSales: compra y venta de autos usados en Panama City, FL. Inventario verificado, precios competitivos y atención inmediata."
-  },
-
-  "nav": {
-    "inventory": "Inventario",
-    "about": "Sobre nosotros",
-    "contact": "Contáctanos",
-    "login": "Ingresar",
-    "dashboard": "Panel"
+  "forms": {
+    "email": "Email",
+    "password": "Contraseña",
+    "remember_me": "Recordarme",
+    "name": "Nombre",
+    "phone": "Teléfono",
+    "message": "Mensaje",
+    "submit": "Enviar"
   },
 
   "home": {
-    "meta_title": "Inicio",
+    "meta": {
+      "title": "Inicio",
+      "description": "LYN AutoSales: compra y venta de autos en Panama City, FL. Inventario verificado, precios competitivos y atención inmediata."
+    },
     "title": "Tu próximo auto está aquí",
     "subtitle": "Inventario verificado, precios competitivos y atención inmediata en Panama City, FL.",
     "view_inventory": "Ver inventario",
-    "whatsapp_cta": "WhatsApp",
-    "advantages": {
-      "time": "Ahorra tiempo",
-      "reviewed": "Vehículos revisados",
-      "finance": "Financiamiento"
-    },
+    "search_placeholder": "Busca por marca, modelo o VIN",
+    "search": "Buscar",
+    "f1": { "title": "Ahorra tiempo", "text": "Proceso ágil, respuesta al instante." },
+    "f2": { "title": "Vehículos revisados", "text": "Transparencia en título, VIN y millaje." },
+    "f3": { "title": "Financiamiento", "text": "Asesoría para opciones disponibles." },
     "new_inventory": "Nuevos en inventario",
-    "empty_inventory_hint": "Aún no hay vehículos. Agrega desde el panel Admin.",
-    "sell_offer_title": "¿Quieres vender o cambiar tu auto?",
-    "sell_offer_subtitle": "Contáctanos y recibe una oferta.",
-    "sell_contact": "Escríbenos"
+    "view_all": "Ver todo",
+    "view": "Ver",
+    "no_vehicles": "Aún no hay vehículos. Agrega desde el panel Admin.",
+    "sell_cta": {
+      "title": "¿Quieres vender o cambiar tu auto?",
+      "text": "Contáctanos y recibe una oferta.",
+      "btn": "Escríbenos"
+    }
+  },
+
+  "inventory": {
+    "title": "Inventario",
+    "empty": "No se encontraron vehículos.",
+    "filters": {
+      "q_placeholder": "Marca, modelo o VIN",
+      "price_min": "Precio mínimo",
+      "price_max": "Precio máximo",
+      "year_min": "Año desde",
+      "year_max": "Año hasta",
+      "apply": "Aplicar filtros",
+      "clear": "Limpiar filtros"
+    }
+  },
+
+  "about": {
+    "title": "Sobre nosotros",
+    "text": "Somos un dealer enfocado en transparencia y servicio al cliente en Panama City, FL."
+  },
+
+  "contact": {
+    "title": "Contáctanos",
+    "text": "Escríbenos y con gusto te ayudamos.",
+    "success": "¡Mensaje enviado con éxito!"
   },
 
   "auth": {
-    "login_title": "Ingresar",
-    "email": "Email",
-    "password": "Contraseña",
-    "remember": "Recordarme",
-    "forgot": "¿Olvidaste tu contraseña?",
-    "submit": "Entrar",
-    "only_staff": "Acceso exclusivo para personal autorizado de LYN AutoSales.",
-    "invalid_credentials": "Email o contraseña incorrectos.",
-    "session_expired": "Tu sesión ha expirado. Inicia nuevamente.",
-    "logout_success": "Sesión cerrada correctamente."
+    "login": {
+      "title": "Ingresar",
+      "subtitle": "Acceso exclusivo para personal autorizado de LYN AutoSales."
+    }
   },
 
-  "dashboard": {
-    "title": "Panel de LYN AutoSales",
-    "hello": "Hola, <%= name %>",
-    "cards": {
+  "admin": {
+    "title": "Panel de administración",
+    "menu": {
+      "dashboard": "Escritorio",
       "vehicles": "Vehículos",
       "inquiries": "Consultas",
       "users": "Usuarios",
-      "total": "Total"
-    },
-    "sidebar": {
-      "dashboard": "Panel",
-      "vehicles": "Vehículos",
-      "inquiries": "Consultas",
-      "users": "Usuarios",
-      "site": "Sitio",
+      "members": "Miembros",
+      "orders": "Órdenes",
+      "appearance": "Apariencia",
       "translations": "Traducciones",
       "settings": "Ajustes",
       "roles": "Roles y permisos",
-      "profile": "Mi perfil"
+      "profile": "Mi perfil",
+      "signout": "Cerrar sesión"
     },
-    "roles": {
-      "owner": "Supremo",
-      "admin": "Administrador",
-      "seller": "Vendedor",
-      "viewer": "Solo lectura"
-    }
-  },
-
-  "vehicles": {
-    "list_title": "Inventario",
-    "create_title": "Agregar vehículo",
-    "edit_title": "Editar vehículo",
-    "empty": "No hay vehículos registrados.",
-    "fields": {
-      "make": "Marca",
-      "model": "Modelo",
-      "year": "Año",
-      "vin": "VIN",
-      "mileage": "Millaje",
-      "price": "Precio",
-      "status": "Estatus",
-      "description": "Descripción",
-      "photos": "Fotos",
-      "main_photo": "Foto principal",
-      "transmission": "Transmisión",
-      "fuel": "Combustible",
-      "color": "Color",
-      "trim": "Versión"
+    "dashboard": {
+      "cards": {
+        "vehicles": "Vehículos",
+        "inquiries": "Consultas",
+        "users": "Usuarios",
+        "sales": "Ventas"
+      }
     },
-    "status": {
-      "draft": "Borrador",
-      "published": "Publicado",
-      "sold": "Vendido",
-      "reserved": "Reservado"
-    },
-    "actions": {
-      "add": "Agregar",
+    "vehicles": {
+      "title": "Vehículos",
+      "add": "Agregar vehículo",
+      "edit": "Editar vehículo",
       "publish": "Publicar",
-      "unpublish": "Retirar",
-      "mark_sold": "Marcar vendido"
+      "unpublish": "Ocultar",
+      "form": {
+        "make": "Marca",
+        "model": "Modelo",
+        "year": "Año",
+        "price": "Precio",
+        "vin": "VIN",
+        "mileage": "Millaje",
+        "main_photo": "Foto principal",
+        "description": "Descripción"
+      }
     },
-    "messages": {
-      "created": "Vehículo creado.",
-      "updated": "Vehículo actualizado.",
-      "deleted": "Vehículo eliminado.",
-      "published": "Vehículo publicado.",
-      "unpublished": "Vehículo retirado."
+    "settings": {
+      "title": "Ajustes",
+      "site": {
+        "title": "Título del sitio",
+        "tagline": "Eslogan",
+        "timezone": "Zona horaria",
+        "language": "Idioma por defecto"
+      }
     }
-  },
-
-  "inquiries": {
-    "title": "Consultas",
-    "empty": "Sin consultas por ahora.",
-    "fields": {
-      "name": "Nombre",
-      "email": "Email",
-      "phone": "Teléfono",
-      "message": "Mensaje",
-      "vehicle": "Vehículo",
-      "created_at": "Fecha"
-    }
-  },
-
-  "users": {
-    "title": "Usuarios",
-    "create_title": "Crear usuario",
-    "edit_title": "Editar usuario",
-    "empty": "No hay usuarios.",
-    "fields": {
-      "name": "Nombre",
-      "email": "Email",
-      "role": "Rol",
-      "password": "Contraseña",
-      "confirm_password": "Confirmar contraseña"
-    },
-    "messages": {
-      "created": "Usuario creado.",
-      "updated": "Usuario actualizado.",
-      "deleted": "Usuario eliminado."
-    }
-  },
-
-  "site": {
-    "title": "Ajustes del sitio",
-    "branding": "Identidad",
-    "branding_hint": "Colores, logotipo y tipografía.",
-    "fields": {
-      "site_name": "Nombre del sitio",
-      "primary_color": "Color primario",
-      "secondary_color": "Color secundario",
-      "accent_color": "Color de acento",
-      "logo": "Logotipo",
-      "favicon": "Favicon",
-      "hero_image": "Imagen principal (home)"
-    },
-    "messages": {
-      "saved": "Ajustes guardados."
-    }
-  },
-
-  "translations": {
-    "title": "Traducciones",
-    "hint": "Edita textos del sitio por idioma.",
-    "save_all": "Guardar todo"
-  },
-
-  "pagination": {
-    "prev": "Anterior",
-    "next": "Siguiente",
-    "showing": "Mostrando",
-    "to": "a",
-    "of": "de",
-    "results": "resultados"
-  },
-
-  "footer": {
-    "location": "Panama City, FL",
-    "hours_title": "Horario",
-    "hours_weekdays": "L–V 9:00–6:00",
-    "hours_sat": "S 9:00–2:00",
-    "links_title": "Links",
-    "contact_title": "Contacto",
-    "email": "ventas@lynautosales.com",
-    "whatsapp_mask": "WhatsApp: +1 XXX"
-  },
-
-  "flash": {
-    "created": "Creado correctamente.",
-    "updated": "Actualizado correctamente.",
-    "deleted": "Eliminado correctamente."
   }
 }
