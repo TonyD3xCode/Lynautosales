@@ -1,16 +1,16 @@
 <header class="site-header">
-  <div class="wrap header-grid">
-    <a class="brand" href="/">
-      <img src="/assets/logo.png" alt="LYN AutoSales">
+  <div class="container nav-row">
+    <a href="/" class="navbar-brand">
+      <img src="/assets/img/logo.png" alt="LYN AutoSales" class="brand-logo">
     </a>
 
     <nav class="main-nav">
-      <a class="nav-link" href="/inventory"><%= __('common.inventory') %></a>
-      <a class="nav-link" href="/about">Sobre nosotros</a>
-      <a class="nav-link" href="/contact">Contáctanos</a>
-      <a class="btn-admin subtle" href="/admin">Ingresar</a>
-      <a class="btn-lang" href="?lang=<%= req.getLocale() === 'en' ? 'es' : 'en' %>">
-        <%= req.getLocale() === 'en' ? 'ES' : 'EN' %>
+      <a href="/inventory"><%= __('common.inventory') %></a>
+      <a href="/about"><%= __('common.about') %></a>
+      <a href="/contact"><%= __('common.contact') %></a>
+      <a href="/admin/login" class="btn btn-ghost small"><%= __('common.login') %></a>
+      <a href="?lang=<%= req.getLocale() === 'es' ? 'en' : 'es' %>" class="chip">
+        <%= req.getLocale() === 'es' ? 'EN' : 'ES' %>
       </a>
     </nav>
   </div>
