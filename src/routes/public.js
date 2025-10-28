@@ -15,6 +15,7 @@ router.get(
     const html = await renderAsync(res, 'home', {
       title: res.__ ? res.__('common.home') : 'Inicio',
       page: 'home',
+      featured: []
     });
     res.send(html);
   })
