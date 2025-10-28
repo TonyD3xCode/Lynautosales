@@ -1,9 +1,12 @@
 // src/utils/renderAsync.js
-export function renderAsync(app, view, data = {}) {
+export function renderAsync(res, view, params = {}) {
   return new Promise((resolve, reject) => {
-    app.render(view, data, (err, html) => {
-      if (err) reject(err);
-      else resolve(html);
+    // Mezcla variables globales de las vistas + params específicos
+    const data = { ...res.locals, ...params };
+
+    res.render(view, data, (err, html) => {
+      if (err) return reject(err);
+      resolve(html);
     });
   });
 }
