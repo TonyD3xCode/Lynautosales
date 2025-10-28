@@ -1,24 +1,16 @@
 {
-  "brand": "LYN AutoSales",
-  "menu": { "inventory": "Inventory", "about": "About", "contact": "Contact", "login": "Log in", "admin": "Admin" },
+  "menu": { "inventory": "Inventory", "about": "About", "contact": "Contact", "login": "Login" },
+  "hero": { "title": "Your next car is here", "subtitle": "Verified inventory, competitive pricing and immediate service in Panama City, FL." },
+  "cta": { "viewInventory": "View inventory", "whatsapp": "WhatsApp" },
+  "search": { "placeholder": "Search by make, model or VIN" },
+  "teaser": { "title": "New in inventory", "viewAll": "View all" },
   "home": {
-    "title": "Your next car is here",
-    "subtitle": "Verified inventory, competitive pricing and immediate attention in Panama City, FL.",
-    "viewInventory": "View inventory",
-    "whatsapp": "WhatsApp",
-    "search": "Search",
-    "searchPlaceholder": "Search by make, model or VIN",
     "time": "Save time",
     "timeText": "Fast process, instant response.",
-    "checked": "Inspected vehicles",
+    "checked": "Checked vehicles",
     "checkedText": "Transparency on title, VIN and mileage.",
     "financing": "Financing",
-    "financingText": "Guidance on available options.",
-    "newInventory": "New in inventory",
-    "viewAll": "View all",
-    "noVehicles": "No vehicles yet.",
-    "sellTitle": "Want to sell or trade your car?",
-    "sellText": "Contact us and get an offer.",
-    "contactUs": "Contact us"
+    "financingText": "Advice on available options.",
+    "noVehicles": "No vehicles yet."
   }
 }
