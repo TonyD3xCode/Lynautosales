@@ -1,6 +1,7 @@
 // src/routes/public.js
 import express from 'express';
 import { renderAsync } from '../utils/renderAsync.js';
+import { listFeatured, listLatest } from '../services/vehicles.js';
 
 export const router = express.Router();
 
@@ -9,31 +10,27 @@ const asyncH = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
 
 // Home
-router.get(
-  '/',
-  asyncH(async (req, res) => {
-    const home = {
-      title: 'Tu próximo auto está aquí',
-      subtitle: 'Inventario verificado, precios competitivos y atención inmediata en Panama City, FL.',
-      view_inventory: 'Ver inventario',
-      whatsapp: 'WhatsApp',
-      whatsapp_link: 'https://wa.me/1XXXXXXXXXX',
-      featured_title: 'Nuevos en inventario',
-      view_all: 'Ver todo'
-    };
-
-    const featured = []; // Evita ReferenceError si no hay vehículos
+router.get('/', async (req, res, next) => {
+  try {
+    const featured = await listFeatured(6);   // o [] si aún no lo tienes
+    const latest   = await listLatest(6);     // idem
 
     const html = await renderAsync(res, 'home', {
-      title: 'Inicio | LYN AutoSales',
-      page: 'home',
-      home,
-      featured
+      home: {
+        title:    req.__('home.title'),
+        subtitle: req.__('home.subtitle'),
+        view_inventory: req.__('home.view_inventory'),
+        whatsapp_cta:   req.__('home.whatsapp_cta')
+      },
+      featured,
+      latest
     });
 
-    res.send(html);
-  })
-);
+    return res.send(html); // <<< IMPORTANTE: enviar el HTML ya resuelto
+  } catch (err) {
+    next(err);
+  }
+});
 
 // Inventario (lista)
 router.get(
