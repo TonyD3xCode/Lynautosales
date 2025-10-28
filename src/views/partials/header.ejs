@@ -1,17 +1,25 @@
-<header class="site-header">
-  <div class="container nav-row">
-    <a href="/" class="navbar-brand">
-      <img src="/assets/img/logo.png" alt="LYN AutoSales" class="brand-logo">
-    </a>
+<header class="main-header">
+  <div class="container header-flex">
+    <div class="logo">
+      <a href="/"><span class="brand">LYN AutoSales</span></a>
+    </div>
 
-    <nav class="main-nav">
-      <a href="/inventory"><%= __('common.inventory') %></a>
-      <a href="/about"><%= __('common.about') %></a>
-      <a href="/contact"><%= __('common.contact') %></a>
-      <a href="/admin/login" class="btn btn-ghost small"><%= __('common.login') %></a>
-      <a href="?lang=<%= req.getLocale() === 'es' ? 'en' : 'es' %>" class="chip">
-        <%= req.getLocale() === 'es' ? 'EN' : 'ES' %>
-      </a>
+    <nav class="nav-menu">
+      <ul>
+        <li><a href="/inventory"><%= __('menu.inventory') %></a></li>
+        <li><a href="/about"><%= __('menu.about') %></a></li>
+        <li><a href="/contact"><%= __('menu.contact') %></a></li>
+        <% if (user) { %>
+          <li><a href="/admin"><%= __('menu.admin') %></a></li>
+          <li><a href="/auth/logout"><%= __('menu.logout') %></a></li>
+        <% } else { %>
+          <li><a href="/auth/login"><%= __('menu.login') %></a></li>
+        <% } %>
+        <li class="lang-switch">
+          <a href="?lang=es" class="<%= req.getLocale() === 'es' ? 'active' : '' %>">ES</a> |
+          <a href="?lang=en" class="<%= req.getLocale() === 'en' ? 'active' : '' %>">EN</a>
+        </li>
+      </ul>
     </nav>
   </div>
 </header>
