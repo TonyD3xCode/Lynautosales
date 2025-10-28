@@ -56,6 +56,88 @@ img {
   display: block;
 }
 
+/* ===== LYN AutoSales Main Styles ===== */
+
+:root {
+  --primary: #f8c500; /* Dorado */
+  --dark: #0a0a0a;   /* Negro base */
+  --light: #ffffff;
+  --gray: #222;
+  --transition: 0.3s ease;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--dark);
+  color: var(--light);
+  margin: 0;
+  padding: 0;
+}
+
+/* HEADER */
+.main-header {
+  background-color: var(--gray);
+  padding: 15px 0;
+  border-bottom: 2px solid var(--primary);
+}
+
+.header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo a {
+  text-decoration: none;
+  color: var(--primary);
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.nav-menu ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-menu a {
+  color: var(--light);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.nav-menu a:hover {
+  color: var(--primary);
+}
+
+/* HERO SECTION */
+.hero {
+  text-align: center;
+  padding: 100px 20px;
+  background: linear-gradient(to right, #0a0a0a, #1a1a1a);
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  color: var(--primary);
+}
+
+.hero p {
+  color: #ccc;
+  font-size: 1.1rem;
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  background-color: var(--gray);
+  padding: 30px;
+  font-size: 0.9rem;
+  color: #aaa;
+  border-top: 2px solid var(--primary);
+}
 /* -----------------------------
    2. CONTAINERS & LAYOUT
 --------------------------------*/
@@ -77,18 +159,6 @@ img {
 
 section {
   margin-bottom: 40px;
-}
-
-/* -----------------------------
-   3. HEADER / FOOTER
---------------------------------*/
-header, footer {
-  background: var(--color-bg-light);
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-  text-align: center;
-  padding: 16px;
-  color: var(--color-text-muted);
 }
 
 /* -----------------------------
