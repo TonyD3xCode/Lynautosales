@@ -1,16 +1,112 @@
 {
-  "menu": { "inventory": "Inventory", "about": "About", "contact": "Contact", "login": "Login" },
-  "hero": { "title": "Your next car is here", "subtitle": "Verified inventory, competitive pricing and immediate service in Panama City, FL." },
-  "cta": { "viewInventory": "View inventory", "whatsapp": "WhatsApp" },
-  "search": { "placeholder": "Search by make, model or VIN" },
-  "teaser": { "title": "New in inventory", "viewAll": "View all" },
+  "brand": "LYN AutoSales",
+
+  "menu": {
+    "inventory": "Inventory",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Log in",
+    "admin": "Admin"
+  },
+
+  "lang": {
+    "es": "ES",
+    "en": "EN",
+    "toggleLabel": "Switch language"
+  },
+
+  "auth": {
+    "login": "Log in",
+    "logout": "Log out",
+    "profile": "Profile",
+    "admin": "Admin Panel",
+    "hello": "Hello",
+    "continue": "Continue",
+    "withEmail": "Continue with email",
+    "withGoogle": "Continue with Google"
+  },
+
+  "buttons": {
+    "search": "Search",
+    "viewAll": "View all",
+    "viewInventory": "View inventory",
+    "whatsapp": "WhatsApp",
+    "contactUs": "Contact us",
+    "clear": "Clear",
+    "apply": "Apply"
+  },
+
   "home": {
+    "title": "Your next car is here",
+    "subtitle": "Verified inventory, competitive prices, and immediate service in Panama City, FL.",
+    "viewInventory": "View inventory",
+    "whatsapp": "WhatsApp",
+    "search": "Search",
+    "searchPlaceholder": "Search by make, model or VIN",
+
     "time": "Save time",
     "timeText": "Fast process, instant response.",
+
     "checked": "Checked vehicles",
     "checkedText": "Transparency on title, VIN and mileage.",
+
     "financing": "Financing",
     "financingText": "Advice on available options.",
-    "noVehicles": "No vehicles yet."
+
+    "newInventory": "New in inventory",
+    "viewAll": "View all",
+    "noVehicles": "No vehicles for now.",
+
+    "sellTitle": "Want to sell or trade your car?",
+    "sellText": "Contact us and get an offer.",
+    "contactUs": "Message us"
+  },
+
+  "inventory": {
+    "title": "Inventory",
+    "filters": "Filters",
+    "searchPlaceholder": "Make, model or VIN",
+    "priceFrom": "Price from",
+    "priceTo": "Price to",
+    "yearFrom": "Year from",
+    "yearTo": "Year to",
+    "mileageMax": "Max mileage",
+    "transmission": "Transmission",
+    "manual": "Manual",
+    "automatic": "Automatic",
+    "fuel": "Fuel",
+    "gas": "Gasoline",
+    "diesel": "Diesel",
+    "hybrid": "Hybrid",
+    "electric": "Electric",
+    "clearFilters": "Clear filters",
+    "applyFilters": "Apply filters",
+    "results": "Results",
+    "noResults": "No vehicles matched your criteria.",
+    "viewDetails": "View details"
+  },
+
+  "vehicle": {
+    "details": "Details",
+    "vin": "VIN",
+    "titleStatus": "Title status",
+    "mileage": "Mileage",
+    "transmission": "Transmission",
+    "fuel": "Fuel",
+    "scheduleVisit": "Schedule a visit",
+    "askWhatsapp": "Ask on WhatsApp"
+  },
+
+  "footer": {
+    "rights": "© {{year}} LYN AutoSales. All rights reserved.",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "contact": "Contact"
+  },
+
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong. Please try again.",
+    "empty": "Nothing to show yet."
   }
 }
