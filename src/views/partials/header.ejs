@@ -61,22 +61,43 @@
 
 <script>
 (function(){
-  // si queda algún menú móvil legado en el DOM, elimínalo
-  document.querySelectorAll('.mobile-menu,.menu-mobile,.legacy-menu,[data-legacy-menu]')
+  document.querySelectorAll('.mobile-menu,.menu-mobile,.legacy-menu,[data-legacy-menu],.nav-dropdown,.nav__dropdown')
     .forEach(n => n.remove());
 
   const toggle   = document.getElementById('navToggle');
   const drawer   = document.getElementById('navDrawer');
   const backdrop = document.getElementById('navBackdrop');
 
-  function openDrawer(open){
-    drawer.hidden = !open;
-    backdrop.hidden = !open;
+  const openDrawer = (open) => {
+    drawer?.classList.toggle('open', open);
+    backdrop?.classList.toggle('open', open);
     document.body.classList.toggle('no-scroll', open);
     toggle?.setAttribute('aria-expanded', open ? 'true' : 'false');
+    drawer?.toggleAttribute('hidden', !open);
+    backdrop?.toggleAttribute('hidden', !open);
+  };
+
+  toggle?.addEventListener('click', () => openDrawer(!drawer.classList.contains('open')));
+  backdrop?.addEventListener('click', () => openDrawer(false));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') openDrawer(false); });
+
+  drawer?.addEventListener('click', (e)=>{
+    const a = e.target.closest('a,button[type="submit"]');
+    if (a) openDrawer(false);
+  });
+
+  if (drawer && !drawer.querySelector('.drawer__close')) {
+    const btn = document.createElement('button');
+    btn.className = 'drawer__close'; btn.setAttribute('aria-label','Cerrar');
+    btn.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+    btn.addEventListener('click', ()=>openDrawer(false));
+    drawer.appendChild(btn);
   }
-  toggle?.addEventListener('click', ()=> openDrawer(drawer.hidden));
-  backdrop?.addEventListener('click', ()=> openDrawer(false));
-  document.addEventListener('keydown', e => { if(e.key==='Escape') openDrawer(false); });
+
+  let lastW = window.innerWidth;
+  window.addEventListener('resize', ()=>{
+    if (window.innerWidth >= 950 && lastW < 950) openDrawer(false);
+    lastW = window.innerWidth;
+  });
 })();
 </script>
