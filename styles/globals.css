@@ -2,28 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Tipografías (Google Fonts en _app.tsx o <Head>) */
 :root {
   --bg: #0B0B0B;
-  --bg-2: #141414;
   --fg: #ffffff;
-  --accent: #F1C40F;
-  --accent-2: #D6AE04;
 }
 
-html, body {
+body {
   background: var(--bg);
   color: var(--fg);
 }
+
 .btn {
   @apply inline-flex items-center justify-center px-5 h-11 rounded-md font-semibold;
 }
+
 .btn-accent {
   @apply bg-brand-yellow text-black hover:bg-brand-yellowDark transition;
 }
+
 .btn-ghost {
   @apply border border-brand-yellow text-brand-yellow hover:bg-brand-yellow hover:text-black transition;
 }
+
 .card {
   @apply bg-brand-gray rounded-xl shadow-soft;
 }
