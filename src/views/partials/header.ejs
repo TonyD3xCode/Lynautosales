@@ -1,76 +1,55 @@
-<!-- src/views/partials/header.ejs -->
 <header class="site-header">
-  <nav class="nav container">
-    <a class="brand" href="/">
-      <img src="/assets/logo.svg" alt="LYN AutoSales" class="brand__logo" />
-    </a>
-
-    <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false" id="navToggle">
-      <!-- ícono hamburguesa -->
+  <nav class="nav container" aria-label="Primary">
+    <button id="navToggle" class="nav__toggle" aria-expanded="false" aria-controls="navMenu" aria-label="Menu">
       <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
     </button>
 
-    <ul class="nav__links" id="navMenu">
-      <li><a href="/inventory"><%= __('menu.inventory') %></a></li>
-      <li><a href="/about"><%= __('menu.about') %></a></li>
-      <li><a href="/contact"><%= __('menu.contact') %></a></li>
+    <a href="/" class="brand" aria-label="LYN AutoSales">
+      <img class="brand__logo" src="/images/lyn-logo.svg" alt="LYN AutoSales">
+    </a>
+
+    <ul id="navMenu" class="nav__links" role="menu">
+      <li role="none"><a role="menuitem" href="/inventory"><%= __('menu.inventory') %></a></li>
+      <li role="none"><a role="menuitem" href="/about"><%= __('menu.about') %></a></li>
+      <li role="none"><a role="menuitem" href="/contact"><%= __('menu.contact') %></a></li>
     </ul>
 
     <div class="nav__actions">
-      <!-- Switch de idioma -->
-      <div class="lang">
-        <a class="lang__link <%= req.getLocale() === 'es' ? 'is-active':'' %>" href="?lang=es">ES</a>
+      <div class="lang" aria-label="Language">
+        <a class="lang__link <%= (locale==='es'?'is-active':'') %>" href="/?lng=es">ES</a>
         <span class="lang__sep">|</span>
-        <a class="lang__link <%= req.getLocale() === 'en' ? 'is-active':'' %>" href="?lang=en">EN</a>
+        <a class="lang__link <%= (locale==='en'?'is-active':'') %>" href="/?lng=en">EN</a>
       </div>
 
-      <% const isAuth = !!user; %>
-      <% if (!isAuth) { %>
-        <a href="/auth/login" class="btn btn--icon" aria-label="<%= __('menu.login') %>">
-          <!-- ícono usuario -->
-          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5Z" fill="currentColor"/></svg>
-          <span class="btn__label"><%= __('menu.login') %></span>
-        </a>
-      <% } else { 
-           const name = user.name || user.email || '';
-           const initials = name.trim().split(/\s+/).slice(0,2).map(s => s[0]).join('').toUpperCase();
-      %>
-        <div class="user">
-          <button class="user__btn" id="userBtn" aria-haspopup="menu" aria-expanded="false">
-            <div class="avatar" aria-hidden="true"><%= initials %></div>
-          </button>
-          <ul class="user__menu" id="userMenu" role="menu">
-            <li role="none"><a role="menuitem" href="/profile"><%= __('menu.profile') || 'Perfil' %></a></li>
-            <li role="none"><a role="menuitem" href="/admin"><%= __('menu.admin') %></a></li>
-            <li role="none"><a role="menuitem" href="/auth/logout"><%= __('menu.logout') %></a></li>
-          </ul>
-        </div>
-      <% } %>
+      <a href="/auth/login" class="btn btn--icon" aria-label="<%= __('menu.login') %>">
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-5 0-9 2.5-9 5.5V22h18v-2.5C21 16.5 17 14 12 14Z" fill="currentColor"/></svg>
+        <span class="btn__label"><%= __('menu.login') %></span>
+      </a>
     </div>
   </nav>
+
+  <!-- overlay para cuando el menú está abierto -->
+  <div id="navOverlay" class="nav__overlay" hidden></div>
 </header>
 
 <script>
-  // Toggle menú móvil
-  (function(){
-    const toggle = document.getElementById('navToggle');
-    const menu = document.getElementById('navMenu');
-    if (toggle && menu) {
-      toggle.addEventListener('click', () => {
-        const open = menu.classList.toggle('is-open');
-        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-    }
-    // Dropdown usuario
-    const userBtn = document.getElementById('userBtn');
-    const userMenu = document.getElementById('userMenu');
-    if (userBtn && userMenu) {
-      userBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const open = userMenu.classList.toggle('is-open');
-        userBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-      document.addEventListener('click', () => userMenu.classList.remove('is-open'));
-    }
-  })();
+(function(){
+  const toggle = document.getElementById('navToggle');
+  const menu   = document.getElementById('navMenu');
+  const overlay= document.getElementById('navOverlay');
+
+  function openMenu(open){
+    document.body.classList.toggle('no-scroll', open);
+    menu.classList.toggle('is-open', open);
+    overlay.hidden = !open;
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  toggle?.addEventListener('click', () => openMenu(!menu.classList.contains('is-open')));
+  overlay?.addEventListener('click', () => openMenu(false));
+  menu?.addEventListener('click', (e) => {
+    if(e.target.tagName === 'A') openMenu(false);
+  });
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') openMenu(false); });
+})();
 </script>
