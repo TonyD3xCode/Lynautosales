@@ -1,53 +1,32 @@
-<!DOCTYPE html>
-<html lang="<%= locale || 'es' %>">
+ <!doctype html>
+<html lang="<%= (req.getLocale && req.getLocale()) || 'es' %>">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><%= title ? (title + ' · LYN AutoSales') : 'LYN AutoSales' %></title>
-  <% if (typeof meta_description === 'string' && meta_description) { %>
-    <meta name="description" content="<%= meta_description %>">
-  <% } %>
-  <link rel="stylesheet" href="/assets/styles.css?<%= Date.now() %>">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title><%= title ? title + ' · ' : '' %>LYN AutoSales</title>
+<link rel="stylesheet" href="/assets/styles.css">
+<link rel="icon" href="/assets/favicon.ico">
 </head>
-<body class="<%= (user && user.role) ? ('role-' + user.role) : 'role-guest' %>">
-
-  <header class="site-header">
-    <div class="container flex between center-v">
-      <a class="logo" href="/">LYN AutoSales</a>
-      <nav class="nav">
-        <a href="/inventory"><%= __('common.inventory') %></a>
-        <a href="/about"><%= __('common.about') %></a>
-        <a href="/contact"><%= __('common.contact') %></a>
-
-        <% if (user) { %>
-          <a href="/admin"><%= __('common.admin') %></a>
-          <a href="/auth/logout"><%= __('common.logout') %></a>
-        <% } else { %>
-          <a href="/auth/login"><%= __('common.login') %></a>
-        <% } %>
-
-        <!-- Selector simple de idioma -->
-        <a class="lang" href="?lang=es">ES</a>
-        <a class="lang" href="?lang=en">EN</a>
-      </nav>
+<body class="theme-lyn">
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand">
+      <img src="/assets/logo.png" class="logo" alt="LYN AutoSales logo" />
+      <a href="/" class="brand-name">LYN AutoSales</a>
     </div>
-  </header>
-
-<body>
-  <%- include('partials/header') %>
-
-  <main class="container">
-    <%- body %>
-  </main>
-
-  <%- include('partials/footer') %>
-</body>
-
-  <footer class="site-footer">
-    <div class="container">
-      <small>© <%= new Date().getFullYear() %> LYN AutoSales</small>
-    </div>
-  </footer>
-
+    <nav>
+      <a href="/inventory"><%= __('common.inventory') %></a>
+      <% if (user) { %>
+        <a href="/admin"><%= __('common.admin') %></a>
+        <a href="/admin/logout"><%= __('common.logout') %></a>
+      <% } else { %>
+        <a href="/admin/login"><%= __('common.login') %></a>
+      <% } %>
+      <a href="?lang=<%= (req.getLocale() === 'es' ? 'en' : 'es') %>" class="lang-toggle"><%= req.getLocale() === 'es' ? 'EN' : 'ES' %></a>
+    </nav>
+  </div>
+</header>
+<main class="wrap"><%- content %></main>
+<footer class="site-footer"><div class="wrap">© <%= new Date().getFullYear() %> LYN AutoSales</div></footer>
 </body>
 </html>
