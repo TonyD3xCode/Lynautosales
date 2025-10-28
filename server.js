@@ -27,7 +27,9 @@ app.set('views', path.join(__dirname, 'src', 'views'));
 
 // Static
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use('/assets',  express.static(path.join(__dirname, 'src', 'assets')));
+app.use('/assets', express.static(path.join(__dirname, 'src', 'assets'), {
+  setHeaders: (res) => res.setHeader('Cache-Control','public, max-age=31536000, immutable')
+}));
 
 // Body parsers
 app.use(express.urlencoded({ extended: true, limit: '20mb' }));
