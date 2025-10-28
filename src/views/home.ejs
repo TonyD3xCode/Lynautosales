@@ -4,57 +4,41 @@
   <p><%= __('home.subtitle') %></p>
 
   <div class="actions">
-    <a class="btn" href="/inventory"><%= __('home.view_inventory') %></a>
-    <a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/1XXXXXXXXXX">
-      WhatsApp
-    </a>
+    <a href="/inventory" class="btn btn-primary"><%= __('home.viewInventory') %></a>
+    <a href="https://wa.me/1XXXXXXXXXX" class="btn btn-outline"><%= __('home.whatsapp') %></a>
   </div>
 
-  <form class="search" action="/inventory" method="get">
-    <input type="text" name="q" placeholder="<%= __('home.search_placeholder') %>">
-    <button class="btn" type="submit"><%= __('home.search') %></button>
+  <form class="search-form" action="/search" method="GET">
+    <input type="text" name="q" placeholder="<%= __('home.searchPlaceholder') %>">
+    <button type="submit"><%= __('home.search') %></button>
   </form>
 </section>
 
-<section class="features grid-3">
-  <div>
-    <h3><%= __('home.f1.title') %></h3>
-    <p><%= __('home.f1.text') %></p>
+<section class="features">
+  <div class="feature">
+    <h2><%= __('home.time') %></h2>
+    <p><%= __('home.timeText') %></p>
   </div>
-  <div>
-    <h3><%= __('home.f2.title') %></h3>
-    <p><%= __('home.f2.text') %></p>
+
+  <div class="feature">
+    <h2><%= __('home.checked') %></h2>
+    <p><%= __('home.checkedText') %></p>
   </div>
-  <div>
-    <h3><%= __('home.f3.title') %></h3>
-    <p><%= __('home.f3.text') %></p>
+
+  <div class="feature">
+    <h2><%= __('home.financing') %></h2>
+    <p><%= __('home.financingText') %></p>
   </div>
 </section>
 
-<section class="new-inventory">
-  <h2 class="center"><%= __('home.new_inventory') %></h2>
-
-  <% if (Array.isArray(featured) && featured.length) { %>
-    <div class="cards">
-      <% featured.forEach(v => { %>
-        <article class="card">
-          <img src="<%= v.main_photo || '/assets/placeholder.jpg' %>" alt="<%= [v.year, v.make, v.model].filter(Boolean).join(' ') %>">
-          <div class="card-body">
-            <h4><%= [v.year, v.make, v.model].filter(Boolean).join(' ') %></h4>
-            <p class="price">$<%= Number(v.price || 0).toLocaleString() %></p>
-            <a class="btn small" href="/inventory?id=<%= v.id %>"><%= __('home.view') %></a>
-          </div>
-        </article>
-      <% }) %>
-    </div>
-    <div class="center"><a class="btn ghost" href="/inventory"><%= __('home.view_all') %></a></div>
-  <% } else { %>
-    <p class="muted"><%= __('home.no_vehicles') %></p>
-  <% } %>
+<section class="inventory">
+  <h2><%= __('home.newInventory') %></h2>
+  <a href="/inventory" class="btn btn-outline"><%= __('home.viewAll') %></a>
+  <p><%= __('home.noVehicles') %></p>
 </section>
 
-<section class="cta">
-  <h2><%= __('home.sell_cta.title') %></h2>
-  <p><%= __('home.sell_cta.text') %></p>
-  <a class="btn" href="/contact"><%= __('home.sell_cta.btn') %></a>
+<section class="sell">
+  <h2><%= __('home.sellTitle') %></h2>
+  <p><%= __('home.sellText') %></p>
+  <a href="/contact" class="btn btn-primary"><%= __('home.contactUs') %></a>
 </section>
