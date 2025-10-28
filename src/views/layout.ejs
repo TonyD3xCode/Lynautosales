@@ -33,9 +33,15 @@
     </div>
   </header>
 
-  <main id="content" class="container">
+<body>
+  <%- include('partials/header') %>
+
+  <main class="container">
     <%- body %>
   </main>
+
+  <%- include('partials/footer') %>
+</body>
 
   <footer class="site-footer">
     <div class="container">
