@@ -4,44 +4,49 @@ import { getFeaturedVehicles, searchVehicles } from '../services/vehicles.js';
 
 export const router = Router();
 
-// Home
 router.get('/', async (req, res, next) => {
   try {
     const featured = await getFeaturedVehicles(6);
-    await renderLayout(res, 'home', {
+    await renderLayout(req, res, 'home', {
       title: req.__('home.meta.title'),
       meta_description: req.__('home.meta.description'),
       featured
     });
-  } catch (err) { next(err); }
+  } catch (err) {
+    next(err);
+  }
 });
 
-// Inventario
 router.get('/inventory', async (req, res, next) => {
   try {
     const q = (req.query.q || '').trim();
     const results = await searchVehicles(q);
-    await renderLayout(res, 'inventory', {
+    await renderLayout(req, res, 'inventory', {
       title: req.__('inventory.title'),
-      q, results
+      q,
+      results
     });
-  } catch (err) { next(err); }
+  } catch (err) {
+    next(err);
+  }
 });
 
-// Sobre nosotros
 router.get('/about', async (req, res, next) => {
   try {
-    await renderLayout(res, 'about', {
+    await renderLayout(req, res, 'about', {
       title: req.__('about.title')
     });
-  } catch (err) { next(err); }
+  } catch (err) {
+    next(err);
+  }
 });
 
-// Contacto
 router.get('/contact', async (req, res, next) => {
   try {
-    await renderLayout(res, 'contact', {
+    await renderLayout(req, res, 'contact', {
       title: req.__('contact.title')
     });
-  } catch (err) { next(err); }
+  } catch (err) {
+    next(err);
+  }
 });
