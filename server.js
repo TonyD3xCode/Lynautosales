@@ -20,6 +20,25 @@ const __dirname  = path.dirname(__filename);
 
 const app = express();
 
+// i18n config
+i18n.configure({
+  locales: ['es','en'],
+  defaultLocale: 'es',
+  directory: path.join(__dirname, 'src', 'locales'),
+  queryParameter: 'lang',
+  cookie: 'lang',
+  objectNotation: true
+});
+app.use(i18n.init);
+
+app.use((req, res, next) => {
+  const translate = (...args) => (typeof req.__ === 'function' ? req.__(...args) : (args[0] || ''));
+  res.__ = translate;
+  res.locals.__ = translate;
+  res.locals.lang = req.getLocale ? req.getLocale() : 'es';
+  next();
+});
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src', 'views'));
 
@@ -73,26 +92,6 @@ app.use('/admin', ensureAuth, (req, res, next) => {    // del resto hacia abajo,
 app.use((req, res) => {
   res.status(404).render('pages/404.ejs', { title: '404' });
 });
-
-// i18n config
-i18n.configure({
-  locales: ['es','en'],
-  defaultLocale: 'es',
-  directory: path.join(__dirname, 'src', 'locales'),
-  queryParameter: 'lang',
-  cookie: 'lang',
-  objectNotation: true
-});
-app.use(i18n.init);
-
-app.use((req, res, next) => {
-  const translate = (...args) => (typeof req.__ === 'function' ? req.__(...args) : (args[0] || ''));
-  res.__ = translate;
-  res.locals.__ = translate;
-  res.locals.lang = req.getLocale ? req.getLocale() : 'es';
-  next();
-});
-
 
 // Start
 const PORT = process.env.PORT || 8080;
