@@ -85,14 +85,11 @@ i18n.configure({
 });
 app.use(i18n.init);
 
-// Helpers disponibles en EJS
 app.use((req, res, next) => {
-  // i18n en vistas: __ y getLocale
-  res.locals.__ = req.__.bind(req);
-  res.locals.locale = req.getLocale();
-  // usuario y request si los necesitas en partials
-  res.locals.user = req.session?.user || null;
-  res.locals.req = req;
+  const translate = (...args) => (typeof req.__ === 'function' ? req.__(...args) : (args[0] || ''));
+  res.__ = translate;
+  res.locals.__ = translate;
+  res.locals.lang = req.getLocale ? req.getLocale() : 'es';
   next();
 });
 
