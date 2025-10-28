@@ -11,20 +11,20 @@
     "language": "Idioma",
     "search": "Buscar",
     "loading": "Cargando...",
-    "error": "Ocurrió un error",
-    "menu": {
+    "error": "Ocurrió un error"
+  }
+  "menu": {
       "inventory": "Inventario",
       "about": "Sobre nosotros",
       "contact": "Contáctanos",
       "login": "Ingresar",
       "admin": "Admin",
       "logout": "Cerrar sesión"
-    },
-    "lang": {
+    }
+  "lang": {
       "es": "ES",
       "en": "EN"
     }    
-  },
 
   "buttons": {
     "save": "Guardar",
