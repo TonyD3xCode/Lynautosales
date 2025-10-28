@@ -2,21 +2,21 @@
 <section class="hero">
   <div class="wrap hero-inner">
     <div class="hero-copy">
-      <h1>Tu próximo auto está aquí</h1>
-      <p>Inventario verificado, precios competitivos y atención inmediata en Panama City, FL.</p>
-      <div class="hero-ctas">
-        <a class="btn" href="/inventory">Ver inventario</a>
-        <a class="btn secondary" href="https://wa.me/1850XXXXXXX?text=Hola%20LYN%20AutoSales,%20quiero%20información" target="_blank" rel="noopener">WhatsApp</a>
-      </div>
-      <form class="home-search" method="get" action="/inventory">
-        <input name="q" placeholder="Busca por marca, modelo o VIN">
-        <button class="btn">Buscar</button>
+      <h1><%= __('home.title') %></h1>
+      <p><%= __('home.subtitle') %></p>
+      <a class="btn" href="/inventory"><%= __('home.view_inventory') %></a>
+      <a class="btn-ghost" href="https://wa.me/1XXXXXXXXXX"><%= __('home.whatsapp') %></a>
+      
+      <form class="search" action="/search" method="get">
+        <input type="text" name="q" placeholder="<%= __('home.search_placeholder') %>">
+        <button class="btn" type="submit"><%= __('home.search') %></button>
       </form>
-    </div>
+
     <div class="hero-media">
-      <img src="/assets/hero.webp" alt="LYN AutoSales" loading="eager">
+      <img src="/assets/img/hero.webp" alt="LYN AutoSales showroom">
     </div>
   </div>
+</div>
 </section>
 
 <section class="badges">
