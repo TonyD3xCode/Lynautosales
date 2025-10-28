@@ -502,7 +502,7 @@ small, .small{font-size:.9rem; color:#bdbdc2}
 
   /* Centrar logo visualmente */
   .brand { justify-self: center; }
-  .brand__logo { height: 26px; }
+  .brand__logo { height: 32px; }
 
   /* Acciones (idioma + login) a la derecha */
   .nav__actions { justify-self: end; gap: 8px; }
