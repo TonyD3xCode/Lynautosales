@@ -31,11 +31,14 @@ i18n.configure({
 });
 app.use(i18n.init);
 
+// Locals disponibles en TODAS las vistas EJS
 app.use((req, res, next) => {
-  const translate = (...args) => (typeof req.__ === 'function' ? req.__(...args) : (args[0] || ''));
-  res.__ = translate;
-  res.locals.__ = translate;
+  const t = (...args) =>
+    typeof req.__ === 'function' ? req.__(...args) : (args[0] || '');
+
+  res.locals.__   = t;                          // i18n en vistas: <%= __('clave') %>
   res.locals.lang = req.getLocale ? req.getLocale() : 'es';
+  res.locals.user = req.session?.user || null;  // usuario (o null)
   next();
 });
 
