@@ -1,105 +1,102 @@
-<!-- src/views/home.ejs -->
-<%
-  // Helpers seguros
-  const safeObj  = v => (v && typeof v === 'object') ? v : {};
-  const safeStr  = v => (typeof v === 'string' ? v : '');
-  const safeNum  = v => (typeof v === 'number' ? v : 0);
-  const asArray  = v => (Array.isArray(v) ? v : []);
-  const h        = safeObj(home);
-  const featured = asArray(locals.featured || featured);
-%>
+<% /* ---------- src/views/home.ejs (REEMPLAZO COMPLETO) ---------- */ %>
+<%- include('partials/header', { title }) %>
 
-<section class="wrap hero">
-  <div class="hero-inner">
+<section class="hero">
+  <div class="wrap hero-inner">
     <div class="hero-copy">
-      <h1><%= safeStr(h.title) || 'Tu próximo auto está aquí' %></h1>
-      <p><%= safeStr(h.subtitle) || 'Inventario verificado, precios competitivos y atención inmediata en Panama City, FL.' %></p>
+      <h1><%= home.title %></h1>
+      <p><%= home.subtitle %></p>
 
-      <div class="hero-actions">
-        <a class="btn" href="/inventory"><%= safeStr(h.view_inventory) || 'Ver inventario' %></a>
-        <a class="btn btn-ghost" href="<%= safeStr(h.whatsapp_link) || 'https://wa.me/1XXXXXXXXXX' %>" target="_blank" rel="noopener">
-          <%= safeStr(h.whatsapp) || 'WhatsApp' %>
+      <div class="actions">
+        <a class="btn" href="/inventory"><%= home.view_inventory %></a>
+        <a class="btn btn-ghost" href="https://wa.me/1XXXXXXXXXX" rel="noopener" target="_blank">
+          <%= home.whatsapp_cta %>
         </a>
       </div>
+
+      <form class="search" action="/inventory" method="get" novalidate>
+        <input
+          type="text"
+          name="q"
+          class="input"
+          placeholder="<%= __('common.search_placeholder') %>"
+          aria-label="<%= __('common.search_placeholder') %>"
+        />
+        <button class="btn" type="submit"><%= __('common.search') %></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="wrap">
+    <div class="grid grid-3">
+      <div class="card">
+        <h3><%= home.advantages.time %></h3>
+        <p><%= __('home.advantages_desc.time') %></p>
+      </div>
+      <div class="card">
+        <h3><%= home.advantages.reviewed %></h3>
+        <p><%= __('home.advantages_desc.reviewed') %></p>
+      </div>
+      <div class="card">
+        <h3><%= home.advantages.finance %></h3>
+        <p><%= __('home.advantages_desc.finance') %></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="new">
+  <div class="wrap">
+    <div class="section-head">
+      <h2><%= home.new_inventory %></h2>
+      <a class="btn btn-ghost" href="/inventory"><%= __('common.view_all') %></a>
     </div>
 
-    <!-- Buscador rápido -->
-    <form class="search" action="/inventory" method="get" autocomplete="off">
-      <input
-        type="text"
-        name="q"
-        placeholder="<%= safeStr(h.search_ph) || 'Busca por marca, modelo o VIN' %>">
-      <button class="btn" type="submit"><%= safeStr(h.search_btn) || 'Buscar' %></button>
-    </form>
-  </div>
-</section>
-
-<!-- Beneficios cortos -->
-<section class="wrap features">
-  <div class="grid grid-3">
-    <article class="feature">
-      <h3>Ahorra tiempo</h3>
-      <p>Proceso ágil, respuesta al instante.</p>
-    </article>
-    <article class="feature">
-      <h3>Vehículos revisados</h3>
-      <p>Transparencia en título, VIN y millaje.</p>
-    </article>
-    <article class="feature">
-      <h3>Financiamiento</h3>
-      <p>Asesoría para opciones disponibles.</p>
-    </article>
-  </div>
-</section>
-
-<!-- Destacados -->
-<section class="wrap">
-  <header class="section-head">
-    <h2><%= safeStr(h.featured_title) || 'Nuevos en inventario' %></h2>
-    <a class="btn btn-ghost" href="/inventory"><%= safeStr(h.view_all) || 'Ver todo' %></a>
-  </header>
-
-  <% if (featured.length === 0) { %>
-    <p>Aún no hay vehículos. Agrega desde el panel Admin.</p>
-  <% } else { %>
-    <div class="grid grid-3 cards">
-      <% featured.forEach(v => { %>
-        <article class="card">
-          <a class="card-media" href="/inventory/<%= v.id %>">
-            <img
-              src="/uploads/images/<%= v.main_photo || 'placeholder.jpg' %>"
-              alt="<%= [v.year, v.make, v.model].filter(Boolean).join(' ') %>">
-          </a>
-          <div class="card-body">
-            <h3 class="card-title">
-              <a href="/inventory/<%= v.id %>">
-                <%= [v.year, v.make, v.model].filter(Boolean).join(' ') %>
-              </a>
-            </h3>
-            <p class="card-meta">
-              <span><%= v.mileage ? v.mileage.toLocaleString('en-US') : '—' %> mi</span>
-              ·
-              <span><%= v.vin || 'VIN —' %></span>
-            </p>
-            <p class="card-price">
-              <%= (v.price != null) ? ('$' + Number(v.price).toLocaleString('en-US')) : 'Consultar' %>
-            </p>
-            <div class="card-actions">
-              <a class="btn" href="/inventory/<%= v.id %>">Detalles</a>
-              <a class="btn btn-ghost" href="https://wa.me/1XXXXXXXXXX?text=<%= encodeURIComponent('Hola, me interesa el ' + [v.year,v.make,v.model].filter(Boolean).join(' ')) %>" target="_blank" rel="noopener">WhatsApp</a>
+    <% if ((featured || []).length === 0) { %>
+      <p class="muted"><%= home.empty_inventory_hint %></p>
+    <% } else { %>
+      <div class="grid grid-4 cards">
+        <% featured.forEach(v => { %>
+          <article class="card vehicle">
+            <div class="media">
+              <img
+                src="<%= v.main_photo || '/assets/img/placeholder.jpg' %>"
+                alt="<%= [v.year, v.make, v.model].filter(Boolean).join(' ') %>"
+                loading="lazy"
+              />
             </div>
-          </div>
-        </article>
-      <% }) %>
-    </div>
-  <% } %>
-</section>
-
-<!-- CTA vender -->
-<section class="wrap cta">
-  <div class="cta-inner">
-    <h2>¿Quieres vender o cambiar tu auto?</h2>
-    <p>Contáctanos y recibe una oferta.</p>
-    <a class="btn" href="/contact">Escríbenos</a>
+            <div class="card-body">
+              <h3 class="title">
+                <%= [v.year, v.make, v.model].filter(Boolean).join(' ') %>
+              </h3>
+              <p class="meta">
+                <% if (v.mileage_fmt || v.mileage) { %>
+                  <span><%= v.mileage_fmt || v.mileage %> mi</span>
+                <% } %>
+                <% if (v.transmission) { %>
+                  · <span><%= v.transmission %></span>
+                <% } %>
+              </p>
+              <% if (v.price_fmt || v.price) { %>
+                <p class="price"><%= v.price_fmt || ('$' + v.price) %></p>
+              <% } %>
+              <a class="btn btn-sm" href="/inventory/<%= v.id %>"><%= __('common.view') %></a>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    <% } %>
   </div>
 </section>
+
+<section class="cta-sell">
+  <div class="wrap">
+    <h2><%= home.sell_offer_title %></h2>
+    <p><%= home.sell_offer_subtitle %></p>
+    <a class="btn" href="/contact"><%= home.sell_contact %></a>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
