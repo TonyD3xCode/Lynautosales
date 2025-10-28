@@ -139,64 +139,71 @@ label{display:block; margin:8px 0 6px; color:#ddd; font-weight:600}
   flex-wrap:wrap;
 }
 
-/* --------- Sección HERO --------- */
-.hero{
-  background: radial-gradient(1200px 600px at 85% -10%, rgba(242,194,0,.15) 0%, rgba(242,194,0,0) 60%), linear-gradient(180deg, #0c0c0f 0%, #111216 100%);
-  border-bottom:1px solid var(--line);
-  padding:72px 0 40px;
+/* Reset de listas en el header/nav */
+.main-header ul, .nav ul, .nav-menu, .nav-menu ul {
+  list-style: none; margin: 0; padding: 0; display: flex; gap: 18px;
 }
-.hero-inner{display:flex; align-items:center; justify-content:center}
-.hero-copy{max-width:760px; text-align:center}
-.hero h1{margin:0 0 10px; font-size:42px; line-height:1.15; color:var(--brand)}
-.hero p{margin:0 auto 18px; max-width:680px; color:#d8d8db}
-.hero .actions{display:flex; gap:12px; justify-content:center; margin-top:10px}
-.search{margin-top:18px; display:flex; gap:10px; justify-content:center}
-.search .input{max-width:420px}
+.main-header li { margin: 0; padding: 0; }
 
-/* --------- Features (3 tarjetas) --------- */
-.features{padding:36px 0 12px}
-.grid{display:grid; gap:18px}
-.grid-3{grid-template-columns:repeat(3,1fr)}
-.grid-4{grid-template-columns:repeat(4,1fr)}
-@media (max-width:1000px){ .grid-4{grid-template-columns:repeat(2,1fr)} }
-@media (max-width:680px){ .grid-3,.grid-4{grid-template-columns:1fr} }
+/* Contenedor base */
+.container { width: min(1200px, 92%); margin-inline: auto; }
 
-.card{
-  background:linear-gradient(180deg,#141518 0%, #0f1013 100%);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  overflow:hidden;
+/* Hero */
+.hero { position: relative; padding: 80px 0 60px; color: #fff; overflow: hidden; }
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.85)),
+    url('/assets/hero.jpg') center/cover no-repeat;
+  z-index: 0;
 }
-.card .media img{display:block; width:100%; height:200px; object-fit:cover; background:#0a0a0a}
-.card-body{padding:16px}
-.card h3{margin:0 0 6px}
-.card p{margin:0; color:#cfcfd3}
-.card .price{color:#fff; font-size:1.05rem; font-weight:700; margin:6px 0 10px}
-.card.vehicle .title{font-size:1.05rem; font-weight:700}
+.hero-inner { position: relative; z-index: 1; }
+.hero-title { font-size: clamp(32px, 5vw, 56px); font-weight: 800; margin: 0 0 10px; color: #f5d03a; }
+.hero-subtitle { margin: 0 0 24px; opacity: .9; }
 
-/* --------- Nueva sección / listado --------- */
-.section-head{
-  display:flex; align-items:center; justify-content:space-between;
-  gap:12px; margin-bottom:10px;
-}
-.new{padding:28px 0}
-.cards{display:grid; grid-template-columns:repeat(4,1fr); gap:18px}
-@media (max-width:1200px){ .cards{grid-template-columns:repeat(3,1fr)} }
-@media (max-width:900px){ .cards{grid-template-columns:repeat(2,1fr)} }
-@media (max-width:560px){ .cards{grid-template-columns:1fr} }
+.actions { display: flex; gap: 16px; margin: 8px 0 20px; flex-wrap: wrap; }
 
-/* --------- CTA Vende tu auto --------- */
-.cta-sell, .cta{
-  margin:50px 0 10px;
-  padding:32px 20px;
-  background:linear-gradient(90deg, rgba(242,194,0,.08), rgba(242,194,0,0));
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  text-align:center;
+/* Search */
+.search { display: flex; gap: 8px; margin-top: 10px; }
+.search input {
+  flex: 1; height: 44px; border-radius: 8px; border: 1px solid #333;
+  background: rgba(255,255,255,.06); color: #fff; padding: 0 14px;
 }
-.cta-sell h2, .cta h2{margin:0 0 8px}
-.cta-sell p, .cta p{margin:0 0 14px; color:#d7d7da}
+.search input::placeholder { color: #bdbdbd; }
+
+/* Botones */
+.btn { display:inline-flex; align-items:center; justify-content:center; padding:12px 18px;
+  border-radius:10px; font-weight:700; text-decoration:none; border:0; cursor:pointer;
+}
+.btn-primary { background:#f5c518; color:#111; }
+.btn-primary:hover { filter: brightness(.95); }
+.btn-secondary { background:transparent; border:1px solid #f5c518; color:#f5c518; }
+.btn-ghost { background:#232323; color:#fff; border:1px solid #333; }
+
+/* Features */
+.features { display:grid; gap:24px; grid-template-columns: repeat(3,1fr); padding: 40px 0; }
+.features .feature h3 { color:#fff; margin:0 0 8px; }
+.features .feature p { color:#bdbdbd; margin:0; }
+
+/* New inventory */
+.new-inventory { padding: 24px 0 40px; }
+.section-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.section-head h2 { color:#ddd; margin:0; }
+.muted { color:#9a9a9a; }
+.grid { display:grid; gap:18px; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); }
+.card { background:#151515; border:1px solid #222; border-radius:12px; overflow:hidden; }
+.card img { width:100%; height:180px; object-fit:cover; display:block; }
+.card-body { padding:12px; }
+.card-title { color:#fff; margin:0 0 6px; font-size:18px; }
+.card-meta { color:#acacac; margin:0 0 10px; }
+
+/* CTA */
+.cta { padding: 36px 0 64px; text-align:left; }
+.cta h2 { color:#fff; margin:0 0 8px; }
+.cta p { color:#c7c7c7; margin:0 0 14px; }
+
+/* Footer básico (opcional por si hace falta) */
+.site-footer { border-top:1px solid #1f1f1f; padding:18px 0; color:#9a9a9a; }
 
 /* --------- Tablas (admin / listas) --------- */
 .table{
