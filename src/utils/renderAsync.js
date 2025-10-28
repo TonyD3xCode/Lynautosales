@@ -1,12 +1,27 @@
 // src/utils/renderAsync.js
-export function renderAsync(res, view, params = {}) {
-  return new Promise((resolve, reject) => {
-    // Mezcla variables globales de las vistas + params específicos
-    const data = { ...res.locals, ...params };
+import ejs from 'ejs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-    res.render(view, data, (err, html) => {
-      if (err) return reject(err);
-      resolve(html);
-    });
-  });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname  = path.dirname(__filename);
+
+export async function renderAsync(res, viewName, locals = {}) {
+  const viewsRoot = path.join(__dirname, '..', 'views');
+
+  // 1) Renderizamos la vista interna (home, about, etc.)
+  const inner = await ejs.renderFile(
+    path.join(viewsRoot, `${viewName}.ejs`),
+    { ...res.locals, ...locals },
+    { async: true }
+  );
+
+  // 2) Inyectamos ese HTML en el layout global
+  const html = await ejs.renderFile(
+    path.join(viewsRoot, 'layout.ejs'),
+    { ...res.locals, ...locals, content: inner },
+    { async: true }
+  );
+
+  return html;
 }
