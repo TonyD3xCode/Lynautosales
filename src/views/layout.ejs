@@ -18,7 +18,7 @@
         <a href="/inventory"><%= __('common.inventory') %></a>
         <a href="/about"><%= __('common.about') %></a>
         <a href="/contact"><%= __('common.contact') %></a>
-        <% if (user) { %>
+        <% if (typeof user === 'object' && user) { %>
           <a href="/admin"><%= __('common.admin') %></a>
           <a href="/auth/logout"><%= __('common.logout') %></a>
         <% } else { %>
