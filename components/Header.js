@@ -20,7 +20,7 @@ export default function Header() {
       <div className="container flex items-center justify-between py-4">
         {/* Logo izquierda */}
         <Link href="/" className="flex items-center gap-2">
-          <img src="/logo.svg" alt="LYN AutoSales" className="h-6 w-auto" />
+          <img src="../assets/logo.png" alt="LYN AutoSales" className="h-6 w-auto" />
         </Link>
 
         {/* Nav derecha */}
