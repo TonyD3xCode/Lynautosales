@@ -1,61 +1,120 @@
 <!-- src/views/home.ejs -->
+
+<%
+  // Helpers seguros para i18n y datos opcionales
+  const t = (typeof __ === 'function') ? __ : (k)=>k;
+  const safe = (v, def='') => (typeof v !== 'undefined' && v !== null) ? v : def;
+
+  // Datos esperados con fallback
+  const list = Array.isArray(featured) ? featured : [];
+  const whatsappUrl = safe(home && home.whatsapp, 'https://wa.me/1XXXXXXXXXX');
+%>
+
+<!-- Hero -->
 <section class="hero">
   <div class="wrap hero-inner">
     <div class="hero-copy">
-      <h1><%= __('home.title') %></h1>
-      <p><%= __('home.subtitle') %></p>
-      <a class="btn" href="/inventory"><%= __('home.view_inventory') %></a>
-      <a class="btn-ghost" href="https://wa.me/1XXXXXXXXXX"><%= __('home.whatsapp') %></a>
-      
-      <form class="search" action="/search" method="get">
-        <input type="text" name="q" placeholder="<%= __('home.search_placeholder') %>">
-        <button class="btn" type="submit"><%= __('home.search') %></button>
-      </form>
+      <h1><%= t('home.title') || 'Tu próximo auto está aquí' %></h1>
+      <p><%= t('home.subtitle') || 'Inventario verificado, precios competitivos y atención inmediata en Panama City, FL.' %></p>
 
-    <div class="hero-media">
-      <img src="/assets/img/hero.webp" alt="LYN AutoSales showroom">
+      <div class="hero-actions">
+        <a class="btn" href="/inventory"><%= t('home.view_inventory') || 'Ver inventario' %></a>
+        <a class="btn btn-ghost" href="<%= whatsappUrl %>" target="_blank" rel="noopener">
+          <%= t('home.whatsapp') || 'WhatsApp' %>
+        </a>
+      </div>
+
+      <form class="search" action="/inventory" method="get">
+        <input
+          type="text"
+          name="q"
+          placeholder="<%= t('home.search_placeholder') || 'Busca por marca, modelo o VIN' %>">
+        <button class="btn" type="submit"><%= t('common.search') || 'Buscar' %></button>
+      </form>
+    </div>
+
+    <div class="hero-art">
+      <!-- Imagen principal del hero (usa tu webp optimizado) -->
+      <img
+        src="/assets/img/hero.webp"
+        alt="LYN AutoSales - Tu próximo auto"
+        loading="eager"
+        width="720"
+        height="480">
     </div>
   </div>
-</div>
 </section>
 
-<section class="badges">
+<!-- Beneficios -->
+<section class="features">
   <div class="wrap grid-3">
-    <div class="badge-card"><h3>Ahorra tiempo</h3><p>Proceso ágil, respuesta al instante.</p></div>
-    <div class="badge-card"><h3>Vehículos revisados</h3><p>Transparencia en título, VIN y millaje.</p></div>
-    <div class="badge-card"><h3>Financiamiento</h3><p>Asesoría para opciones disponibles.</p></div>
+    <div class="card">
+      <h3><%= t('home.benefit_fast') || 'Ahorra tiempo' %></h3>
+      <p><%= t('home.benefit_fast_desc') || 'Proceso ágil, respuesta al instante.' %></p>
+    </div>
+    <div class="card">
+      <h3><%= t('home.benefit_checked') || 'Vehículos revisados' %></h3>
+      <p><%= t('home.benefit_checked_desc') || 'Transparencia en título, VIN y millaje.' %></p>
+    </div>
+    <div class="card">
+      <h3><%= t('home.benefit_finance') || 'Financiamiento' %></h3>
+      <p><%= t('home.benefit_finance_desc') || 'Asesoría para opciones disponibles.' %></p>
+    </div>
   </div>
 </section>
 
-<section class="featured">
+<!-- Nuevos en inventario -->
+<section class="section">
   <div class="wrap">
     <div class="section-head">
-      <h2>Nuevos en inventario</h2>
-      <a href="/inventory">Ver todo</a>
+      <h2><%= t('home.new_arrivals') || 'Nuevos en inventario' %></h2>
+      <a class="link" href="/inventory"><%= t('home.view_all') || 'Ver todo' %></a>
     </div>
-    <div class="grid">
-      <% (featured || []).forEach(v => { %>
-        <div class="card">
-          <img src="/uploads/images/<%= v.main_photo || 'placeholder.jpg' %>" alt="<%= v.year %> <%= v.make %> <%= v.model %>">
-          <div class="card-body">
-            <div class="badge"><%= v.status.toUpperCase() %></div>
-            <h3><%= v.year %> <%= v.make %> <%= v.model %></h3>
-            <p>Precio $<%= Number(v.price).toLocaleString() %> • Millas <%= Number(v.mileage).toLocaleString() %></p>
-            <p><a class="btn" href="/vehicle/<%= v.id %>">Ver detalles</a></p>
-          </div>
-        </div>
-      <% }) %>
-      <% if (!featured || !featured.length) { %>
-        <p class="alert">Aún no hay vehículos. Agrega desde el panel Admin.</p>
-      <% } %>
-    </div>
+
+    <% if (list.length === 0) { %>
+      <p class="muted">
+        <%= t('home.no_vehicles') || 'Aún no hay vehículos. Agrega desde el panel Admin.' %>
+      </p>
+    <% } else { %>
+      <div class="grid-cards">
+        <% (list || []).forEach(v => { 
+             const photo = v.main_photo || '/assets/img/placeholder.webp';
+             const title = `${safe(v.year,'') } ${safe(v.make,'')} ${safe(v.model,'')}`.trim();
+        %>
+          <article class="card car">
+            <div class="car-media">
+              <img
+                src="<%= photo %>"
+                alt="<%= title %>"
+                loading="lazy"
+                width="480"
+                height="320">
+            </div>
+            <div class="car-body">
+              <h3 class="car-title"><%= title || 'Vehículo' %></h3>
+              <p class="car-meta">
+                <%= safe(v.mileage_display, '') %>
+                <% if (v.transmission) { %> · <%= v.transmission %> <% } %>
+                <% if (v.fuel) { %> · <%= v.fuel %> <% } %>
+              </p>
+              <div class="car-actions">
+                <a class="btn btn-sm" href="/inventory/<%= v.id %>"><%= t('home.view_details') || 'Ver detalles' %></a>
+              </div>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    <% } %>
   </div>
 </section>
 
-<section class="cta-wide">
-  <div class="wrap cta-box">
-    <h3>¿Quieres vender o cambiar tu auto?</h3>
-    <p>Contáctanos y recibe una oferta.</p>
-    <a class="btn" href="https://wa.me/1850XXXXXXX?text=Quiero%20vender%20mi%20auto" target="_blank" rel="noopener">Escríbenos</a>
+<!-- CTA vender/cambiar -->
+<section class="cta">
+  <div class="wrap cta-inner">
+    <div>
+      <h2><%= t('home.sell_title') || '¿Quieres vender o cambiar tu auto?' %></h2>
+      <p><%= t('home.sell_subtitle') || 'Contáctanos y recibe una oferta.' %></p>
+      <a class="btn" href="/contact"><%= t('home.write_us') || 'Escríbenos' %></a>
+    </div>
   </div>
 </section>
