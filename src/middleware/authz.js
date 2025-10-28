@@ -23,13 +23,6 @@ const ROLE_CAPS = {
   seller: [CAP.DASHBOARD, CAP.INV_READ, CAP.INQ_READ]
 };
 
-export function ensureAuth(req, res, next) {
-  if (req.session && req.session.user) {
-    return next();
-  }
-  return res.redirect('/admin/login');
-}
-
 export function can(cap) {
   return (req, res, next) => {
     const role = req.session?.user?.role || 'seller';
@@ -39,16 +32,30 @@ export function can(cap) {
   };
 }
 
-export function buildAdminMenu(role='seller') {
-  const caps = ROLE_CAPS[role] || [];
-  const I = (c) => caps.includes(c);
-  const items = [];
-  items.push({ href:'/admin', label:'Escritorio', icon:'🏠' }); // dashboard
-  if (I(CAP.INV_READ))  items.push({ href:'/admin/vehicles', label:'Inventario', icon:'🚗' });
-  if (I(CAP.INQ_READ))  items.push({ href:'/admin/inquiries', label:'Consultas', icon:'💬' });
-  if (I(CAP.REV_READ))  items.push({ href:'/admin/reviews',  label:'Reseñas',   icon:'⭐' });
-  if (I(CAP.MEDIA))     items.push({ href:'/admin/media',    label:'Medios',    icon:'🖼️' });
-  if (I(CAP.USERS))     items.push({ href:'/admin/users',    label:'Usuarios',  icon:'👥' });
-  if (I(CAP.SETTINGS))  items.push({ href:'/admin/settings', label:'Ajustes',   icon:'⚙️' });
-  return items;
+// src/middleware/authz.js
+export function allowAnonAdminPaths(req, res, next) {
+  // Dejar pasar el login y logout
+  if (req.path === '/login' || req.path === '/logout') return next();
+  return next('route'); // pasa al siguiente app.use('/admin', …)
+}
+
+export function ensureAuth(req, res, next) {
+  if (req.session?.user) return next();
+  return res.redirect('/admin/login');
+}
+
+export function buildAdminMenu(role = 'seller') {
+  const base = [
+    { href:'/admin',            label:'Dashboard' },
+    { href:'/admin/vehicles',   label:'Vehículos' },
+    { href:'/admin/inquiries',  label:'Consultas' },
+  ];
+  if (role === 'manager' || role === 'admin') {
+    base.push({ href:'/admin/users', label:'Usuarios' });
+    base.push({ href:'/admin/settings', label:'Ajustes' });
+  }
+  if (role === 'admin') {
+    base.push({ href:'/admin/audit', label:'Auditoría' });
+  }
+  return base;
 }
