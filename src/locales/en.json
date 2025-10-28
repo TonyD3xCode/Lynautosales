@@ -1,46 +1,231 @@
 {
+  "brand": {
+    "name": "LYN AutoSales",
+    "tagline": "Used cars in Panama City, FL"
+  },
+
   "common": {
-    "brand": "LYN AutoSales",
-    "not_found": "Page not found",
+    "home": "Home",
+    "inventory": "Inventory",
+    "about": "About",
+    "contact": "Contact",
     "login": "Login",
     "logout": "Logout",
-    "admin": "Admin",
-    "inventory": "Inventory",
+    "profile": "Profile",
     "search": "Search",
-    "save": "Save",
-    "create": "Create",
-    "delete": "Delete",
-    "actions": "Actions",
-    "status": "Status",
-    "about": "About us",
-    "contact": "Contact",
-    "available": "Available",
-    "pending": "Pending",
-    "sold": "Sold"
-  },
-  "home": {
-    "headline": "Used cars for sale",
-    "title": "Your next car is here",
-    "subtitle": "Verified inventory, competitive prices and immediate attention in Panama City, FL.",
-    "view_inventory": "View inventory",
-    "whatsapp": "WhatsApp",
     "search_placeholder": "Search by make, model or VIN",
-    "search": "Search",
-    "cta": "Browse inventory"
+    "view_all": "View all",
+    "view": "View",
+    "edit": "Edit",
+    "create": "Create",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "yes": "Yes",
+    "no": "No",
+    "not_found": "Not found",
+    "error": "Something went wrong",
+    "success": "Done successfully",
+    "back": "Back",
+    "whatsapp": "WhatsApp",
+    "language": "Language",
+    "es": "Spanish",
+    "en": "English"
   },
-  "vehicle": {
+
+  "layout": {
+    "meta_title_suffix": "· LYN AutoSales",
+    "meta_description": "LYN AutoSales: used cars in Panama City, FL. Verified inventory, competitive prices and immediate service."
+  },
+
+  "nav": {
+    "inventory": "Inventory",
+    "about": "About",
     "contact": "Contact",
-    "send": "Send",
-    "interested": "I'm interested."
+    "login": "Login",
+    "dashboard": "Dashboard"
   },
-  "admin": {
-    "dashboard": "Dashboard",
-    "vehicles": "Vehicles",
-    "newVehicle": "New vehicle",
-    "editVehicle": "Edit vehicle",
-    "gallery": "Gallery",
-    "upload": "Upload",
-    "csvImport": "CSV Import",
-    "metrics": "Metrics"
+
+  "home": {
+    "meta_title": "Home",
+    "title": "Your next car is here",
+    "subtitle": "Verified inventory, competitive prices and immediate service in Panama City, FL.",
+    "view_inventory": "View inventory",
+    "whatsapp_cta": "WhatsApp",
+    "advantages": {
+      "time": "Save time",
+      "reviewed": "Inspected vehicles",
+      "finance": "Financing"
+    },
+    "new_inventory": "New arrivals",
+    "empty_inventory_hint": "No vehicles yet. Add from the Admin panel.",
+    "sell_offer_title": "Want to sell or trade your car?",
+    "sell_offer_subtitle": "Contact us and get an offer.",
+    "sell_contact": "Write to us"
+  },
+
+  "auth": {
+    "login_title": "Sign in",
+    "email": "Email",
+    "password": "Password",
+    "remember": "Remember me",
+    "forgot": "Forgot your password?",
+    "submit": "Sign in",
+    "only_staff": "Access restricted to authorized LYN AutoSales staff.",
+    "invalid_credentials": "Incorrect email or password.",
+    "session_expired": "Your session has expired. Please sign in again.",
+    "logout_success": "Signed out successfully."
+  },
+
+  "dashboard": {
+    "title": "LYN AutoSales Dashboard",
+    "hello": "Hi, <%= name %>",
+    "cards": {
+      "vehicles": "Vehicles",
+      "inquiries": "Inquiries",
+      "users": "Users",
+      "total": "Total"
+    },
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "vehicles": "Vehicles",
+      "inquiries": "Inquiries",
+      "users": "Users",
+      "site": "Site",
+      "translations": "Translations",
+      "settings": "Settings",
+      "roles": "Roles & Permissions",
+      "profile": "My profile"
+    },
+    "roles": {
+      "owner": "Owner",
+      "admin": "Admin",
+      "seller": "Seller",
+      "viewer": "Read only"
+    }
+  },
+
+  "vehicles": {
+    "list_title": "Inventory",
+    "create_title": "Add vehicle",
+    "edit_title": "Edit vehicle",
+    "empty": "No vehicles yet.",
+    "fields": {
+      "make": "Make",
+      "model": "Model",
+      "year": "Year",
+      "vin": "VIN",
+      "mileage": "Mileage",
+      "price": "Price",
+      "status": "Status",
+      "description": "Description",
+      "photos": "Photos",
+      "main_photo": "Main photo",
+      "transmission": "Transmission",
+      "fuel": "Fuel",
+      "color": "Color",
+      "trim": "Trim"
+    },
+    "status": {
+      "draft": "Draft",
+      "published": "Published",
+      "sold": "Sold",
+      "reserved": "Reserved"
+    },
+    "actions": {
+      "add": "Add",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "mark_sold": "Mark sold"
+    },
+    "messages": {
+      "created": "Vehicle created.",
+      "updated": "Vehicle updated.",
+      "deleted": "Vehicle deleted.",
+      "published": "Vehicle published.",
+      "unpublished": "Vehicle unpublished."
+    }
+  },
+
+  "inquiries": {
+    "title": "Inquiries",
+    "empty": "No inquiries yet.",
+    "fields": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "message": "Message",
+      "vehicle": "Vehicle",
+      "created_at": "Date"
+    }
+  },
+
+  "users": {
+    "title": "Users",
+    "create_title": "Create user",
+    "edit_title": "Edit user",
+    "empty": "No users.",
+    "fields": {
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "password": "Password",
+      "confirm_password": "Confirm password"
+    },
+    "messages": {
+      "created": "User created.",
+      "updated": "User updated.",
+      "deleted": "User deleted."
+    }
+  },
+
+  "site": {
+    "title": "Site settings",
+    "branding": "Branding",
+    "branding_hint": "Colors, logo and typography.",
+    "fields": {
+      "site_name": "Site name",
+      "primary_color": "Primary color",
+      "secondary_color": "Secondary color",
+      "accent_color": "Accent color",
+      "logo": "Logo",
+      "favicon": "Favicon",
+      "hero_image": "Home hero image"
+    },
+    "messages": {
+      "saved": "Settings saved."
+    }
+  },
+
+  "translations": {
+    "title": "Translations",
+    "hint": "Edit site texts per language.",
+    "save_all": "Save all"
+  },
+
+  "pagination": {
+    "prev": "Previous",
+    "next": "Next",
+    "showing": "Showing",
+    "to": "to",
+    "of": "of",
+    "results": "results"
+  },
+
+  "footer": {
+    "location": "Panama City, FL",
+    "hours_title": "Hours",
+    "hours_weekdays": "Mon–Fri 9:00–6:00",
+    "hours_sat": "Sat 9:00–2:00",
+    "links_title": "Links",
+    "contact_title": "Contact",
+    "email": "ventas@lynautosales.com",
+    "whatsapp_mask": "WhatsApp: +1 XXX"
+  },
+
+  "flash": {
+    "created": "Created successfully.",
+    "updated": "Updated successfully.",
+    "deleted": "Deleted successfully."
   }
 }
