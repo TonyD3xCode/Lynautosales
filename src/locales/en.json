@@ -11,21 +11,20 @@
     "language": "Language",
     "search": "Search",
     "loading": "Loading...",
-    "menu": {
+    "error": "An error occurred"
+  }
+  "menu": {
       "inventory": "Inventory",
       "about": "About",
       "contact": "Contact",
       "login": "Log in",
       "admin": "Admin",
       "logout": "Log out"
-    },
-    "lang": {
+    }
+  "lang": {
       "es": "ES",
       "en": "EN"
-    },
-    "error": "An error occurred"
-  },
-
+    }
   "buttons": {
     "save": "Save",
     "cancel": "Cancel",
