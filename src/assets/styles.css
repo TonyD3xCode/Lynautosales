@@ -611,6 +611,71 @@ small, .small{font-size:.9rem; color:#bdbdc2}
   .lang__sep { opacity: .35; }
 }
 
+/* ===== Header layout ===== */
+.nav.container{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding-block:10px;
+  max-width:1200px;
+  margin-inline:auto;
+}
+.brand__logo{ height:28px; width:auto; display:block; }
+
+/* empuja el bloque derecho a la derecha */
+.nav__spacer{ flex:1 1 auto; }
+
+.nav__right{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+/* enlaces */
+.nav__links{ display:flex; gap:18px; list-style:none; margin:0; padding:0; }
+.nav__links a{ color:#fff; text-decoration:none; font-weight:500; padding:8px 10px; border-radius:6px; }
+.nav__links a:hover{ background:rgba(255,255,255,.1); }
+
+/* idioma y login */
+.lang{ margin:0; }
+.lang__btn{
+  background:#2a2a2a; color:#fff; border:1px solid #444; border-radius:6px;
+  padding:6px 10px; cursor:pointer; font-weight:600; letter-spacing:.5px;
+}
+.lang__btn:hover{ background:#3a3a3a; }
+
+.btn--icon{
+  background:#ffcc00; color:#000; border-radius:50%; padding:8px; display:inline-flex;
+}
+.btn--icon:hover{ background:#ffd633; }
+
+/* Hamburguesa oculta en desktop */
+.nav__toggle{ display:none; background:none; border:none; color:#fff; }
+
+/* ===== Responsive ===== */
+@media (max-width: 950px){
+  .nav__links{ display:none; }               /* ocultamos links en móvil */
+  .nav__toggle{ display:inline-flex; }       /* mostramos hamburguesa */
+
+  .nav__right{
+    position:relative;
+  }
+
+  /* panel deslizante */
+  .nav__right.is-open .nav__links{
+    display:flex;
+    position:absolute;
+    top:100%; right:0;
+    flex-direction:column; align-items:flex-start;
+    width:70vw; max-width:360px;
+    background:#111; border-left:2px solid #ffcc00;
+    padding:18px; gap:10px; box-shadow:-6px 0 20px rgba(0,0,0,.4);
+    z-index:100;
+  }
+
+  .nav__overlay{ position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:50; }
+}
+
 /* ===== BREAKPOINT MOBILE ESTRECHO ===== */
 @media (max-width: 740px) {
   .brand__logo { height: 24px; }
