@@ -15,6 +15,6 @@ export async function render(view, data = {}, ejsOptions = {}) {
 
 // Renderiza una vista dentro de layout.ejs
 export async function renderLayout(res, view, data = {}) {
-  const body = await render(view, data);
-  res.render('layout', { ...data, body });
+  const body = await render(view, locals);
+  res.render('layout', { ...locals, body });
 }
