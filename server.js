@@ -91,11 +91,10 @@ app.use('/admin', ensureAuth, (req, res, next) => {    // del resto hacia abajo,
   next();
 });
 
-// 404
 app.use((req, res) => {
-  res.status(404).render('pages/404.ejs', { title: '404' });
+  const html = `<h2>${req.__('common.not_found')}</h2>`;
+  res.status(404).render('layout', { title: '404', body: html });
 });
-
 // Start
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`LYN AutoSales ON :${PORT}`));
