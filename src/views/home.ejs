@@ -1,100 +1,60 @@
 <!-- src/views/home.ejs -->
-<%
-// Helpers seguros
-const H       = (typeof __ === 'function') ? __ : (k)=>k;              // traducción i18n
-const safeObj = v => (v && typeof v === 'object') ? v : {};
-const safeStr = v => (typeof v === 'string') ? v : '';
-const arr     = v => Array.isArray(v) ? v : [];
+<section class="hero">
+  <h1><%= __('home.title') %></h1>
+  <p><%= __('home.subtitle') %></p>
 
-// Datos que pueden venir del controlador
-const _home    = safeObj(home);
-const featured = arr(typeof locals.featured !== 'undefined' ? locals.featured : featured);
+  <div class="actions">
+    <a class="btn" href="/inventory"><%= __('home.view_inventory') %></a>
+    <a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/1XXXXXXXXXX">
+      WhatsApp
+    </a>
+  </div>
 
-// Utilidades de UI
-const carTitle = (v) => [v.year, v.make, v.model].filter(Boolean).join(' ');
-%>
+  <form class="search" action="/inventory" method="get">
+    <input type="text" name="q" placeholder="<%= __('home.search_placeholder') %>">
+    <button class="btn" type="submit"><%= __('home.search') %></button>
+  </form>
+</section>
 
-<!DOCTYPE html>
-<html lang="<%= safeStr(lang || 'es') %>">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title><%= safeStr(title || H('common.home_title')) %></title>
-  <link rel="stylesheet" href="/assets/styles.css" />
-</head>
-<body>
+<section class="features grid-3">
+  <div>
+    <h3><%= __('home.f1.title') %></h3>
+    <p><%= __('home.f1.text') %></p>
+  </div>
+  <div>
+    <h3><%= __('home.f2.title') %></h3>
+    <p><%= __('home.f2.text') %></p>
+  </div>
+  <div>
+    <h3><%= __('home.f3.title') %></h3>
+    <p><%= __('home.f3.text') %></p>
+  </div>
+</section>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="wrap hero-inner">
-      <div class="hero-copy">
-        <h1><%= safeStr(_home.title || H('home.title')) %></h1>
-        <p><%= safeStr(_home.subtitle || H('home.subtitle')) %></p>
-        <div class="hero-actions">
-          <a class="btn" href="/inventory"><%= safeStr(_home.view_inventory || H('home.view_inventory')) %></a>
-          <a class="btn-ghost" href="https://wa.me/1XXXXXXXXXX" target="_blank" rel="noopener">
-            <%= safeStr(_home.whatsapp_cta || H('home.whatsapp_cta')) %>
-          </a>
-        </div>
-      </div>
+<section class="new-inventory">
+  <h2 class="center"><%= __('home.new_inventory') %></h2>
 
-      <form class="search" action="/inventory" method="get">
-        <input type="text" name="q" placeholder="<%= H('home.search_placeholder') %>" />
-        <button class="btn" type="submit"><%= H('home.search_btn') %></button>
-      </form>
+  <% if (Array.isArray(featured) && featured.length) { %>
+    <div class="cards">
+      <% featured.forEach(v => { %>
+        <article class="card">
+          <img src="<%= v.main_photo || '/assets/placeholder.jpg' %>" alt="<%= [v.year, v.make, v.model].filter(Boolean).join(' ') %>">
+          <div class="card-body">
+            <h4><%= [v.year, v.make, v.model].filter(Boolean).join(' ') %></h4>
+            <p class="price">$<%= Number(v.price || 0).toLocaleString() %></p>
+            <a class="btn small" href="/inventory?id=<%= v.id %>"><%= __('home.view') %></a>
+          </div>
+        </article>
+      <% }) %>
     </div>
-  </section>
+    <div class="center"><a class="btn ghost" href="/inventory"><%= __('home.view_all') %></a></div>
+  <% } else { %>
+    <p class="muted"><%= __('home.no_vehicles') %></p>
+  <% } %>
+</section>
 
-  <!-- Ventajas -->
-  <section class="features wrap">
-    <div class="feature">
-      <h3><%= H('home.advantages.time.title') %></h3>
-      <p><%= H('home.advantages.time.desc') %></p>
-    </div>
-    <div class="feature">
-      <h3><%= H('home.advantages.reviewed.title') %></h3>
-      <p><%= H('home.advantages.reviewed.desc') %></p>
-    </div>
-    <div class="feature">
-      <h3><%= H('home.advantages.finance.title') %></h3>
-      <p><%= H('home.advantages.finance.desc') %></p>
-    </div>
-  </section>
-
-  <!-- Destacados -->
-  <section class="wrap">
-    <header class="section-head">
-      <h2><%= H('home.new_inventory') %></h2>
-      <a class="btn-ghost" href="/inventory"><%= H('home.view_all') %></a>
-    </header>
-
-    <% if (!featured.length) { %>
-      <p class="muted"><%= H('home.empty_inventory_hint') %></p>
-    <% } else { %>
-      <div class="grid cards">
-        <% featured.forEach(v => { %>
-          <article class="card">
-            <img
-              src="/uploads/images/<%= v.main_photo || 'placeholder.jpg' %>"
-              alt="<%= carTitle(v) %>"
-              loading="lazy" />
-            <div class="card-body">
-              <h3><%= carTitle(v) %></h3>
-              <p class="price"><%= (v.price_display || '$' + (v.price||0).toLocaleString()) %></p>
-              <a class="btn" href="/inventory/<%= v.id %>"><%= H('home.view_details') %></a>
-            </div>
-          </article>
-        <% }) %>
-      </div>
-    <% } %>
-  </section>
-
-  <!-- Vender -->
-  <section class="cta wrap">
-    <h2><%= H('home.sell_offer_title') %></h2>
-    <p><%= H('home.sell_offer_subtitle') %></p>
-    <a class="btn" href="/contact"><%= H('home.sell_contact') %></a>
-  </section>
-
-</body>
-</html>
+<section class="cta">
+  <h2><%= __('home.sell_cta.title') %></h2>
+  <p><%= __('home.sell_cta.text') %></p>
+  <a class="btn" href="/contact"><%= __('home.sell_cta.btn') %></a>
+</section>
