@@ -59,11 +59,21 @@ img {
 /* -----------------------------
    2. CONTAINERS & LAYOUT
 --------------------------------*/
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px;
-}
+/* Contenedor y fila nav */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+.nav-row { display: flex; align-items: center; justify-content: space-between; min-height: 64px; }
+
+.navbar-brand img.brand-logo { height: 36px; width: auto; display: block; }
+
+.main-nav { display: flex; gap: 18px; align-items: center; }
+.main-nav a { text-decoration: none; font-weight: 600; opacity: .9; }
+.main-nav a:hover { opacity: 1; }
+
+.btn { padding: 10px 16px; border-radius: 10px; border: 1px solid var(--gold); background: var(--gold); color:#111; }
+.btn-ghost { background: transparent; color: var(--gold); border-color: var(--gold); }
+.btn.small { padding: 8px 12px; font-size: .9rem; }
+
+.chip { padding: 6px 10px; border-radius: 999px; border: 1px solid var(--gold); font-size: .8rem; }
 
 section {
   margin-bottom: 40px;
