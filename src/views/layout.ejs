@@ -1,32 +1,34 @@
 <!DOCTYPE html>
-<html lang="<%= (typeof lang === 'string' && lang) ? lang : 'es' %>">
+<html lang="<%= locale || 'es' %>">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <title><%= (typeof title === 'string' && title.length ? title + ' · ' : '') %>LYN AutoSales</title>
-  <meta name="description" content="LYN AutoSales: compra y venta de autos usados en Panama City, FL. Inventario verificado, precios competitivos y atención inmediata." />
-
-  <link rel="stylesheet" href="/assets/styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title ? (title + ' · LYN AutoSales') : 'LYN AutoSales' %></title>
+  <% if (typeof meta_description === 'string' && meta_description) { %>
+    <meta name="description" content="<%= meta_description %>">
+  <% } %>
+  <link rel="stylesheet" href="/assets/styles.css">
 </head>
-<body>
-  <header class="site-header">
-    <div class="container">
-      <a class="brand" href="/"><span>LYN</span> AutoSales</a>
+<body class="<%= (user && user.role) ? ('role-' + user.role) : 'role-guest' %>">
 
-      <nav class="main-nav" aria-label="Main">
+  <header class="site-header">
+    <div class="container flex between center-v">
+      <a class="logo" href="/">LYN AutoSales</a>
+      <nav class="nav">
         <a href="/inventory"><%= __('common.inventory') %></a>
         <a href="/about"><%= __('common.about') %></a>
         <a href="/contact"><%= __('common.contact') %></a>
-        <% if (typeof user === 'object' && user) { %>
+
+        <% if (user) { %>
           <a href="/admin"><%= __('common.admin') %></a>
           <a href="/auth/logout"><%= __('common.logout') %></a>
         <% } else { %>
-          <a class="btn" href="/admin/login"><%= __('common.login') %></a>
+          <a href="/auth/login"><%= __('common.login') %></a>
         <% } %>
-        <!-- selector de idioma -->
-        <a href="?lang=es" aria-label="Español">ES</a>
-        <a href="?lang=en" aria-label="English">EN</a>
+
+        <!-- Selector simple de idioma -->
+        <a class="lang" href="?lang=es">ES</a>
+        <a class="lang" href="?lang=en">EN</a>
       </nav>
     </div>
   </header>
@@ -37,8 +39,9 @@
 
   <footer class="site-footer">
     <div class="container">
-      <p>© <%= new Date().getFullYear() %> LYN AutoSales</p>
+      <small>© <%= new Date().getFullYear() %> LYN AutoSales</small>
     </div>
   </footer>
+
 </body>
 </html>
