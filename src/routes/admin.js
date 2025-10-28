@@ -4,77 +4,96 @@ import { db } from '../services/db.js';
 
 export const router = express.Router();
 
-// Render EJS a string sin callbacks (helper local para admin)
-const renderAsyncLocal = (req, view, data = {}) =>
-  new Promise((resolve, reject) =>
-    req.app.render(view, data, (err, html) => (err ? reject(err) : resolve(html)))
-  );
-
-// tras validar credenciales:
-req.session.user = { id: user.id, email: user.email, role: user.role };
-req.session.save(err => {
-  if (err) {
-    console.error('session save error', err);
-    return res.status(500).send('Error de sesión');
-  }
-  return res.redirect('/admin');
+/* ============================
+   LOGIN (público)
+============================ */
+// GET /admin/login  -> muestra formulario
+router.get('/login', (req, res) => {
+  if (req.session?.user) return res.redirect('/admin'); // si ya está logueado
+  return res.render('admin/login', { title: 'Ingresar', error: null });
 });
 
-// middleware auth básico
-function requireAuth(req, res, next) {
-  if (req.session?.user && ['admin','manager'].includes(req.session.user.role)) return next();
+// POST /admin/login -> procesa credenciales
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body || {};
+  try {
+    if (!email || !password) {
+      return res.render('admin/login', { title: 'Ingresar', error: 'Completa todos los campos.' });
+    }
+
+    const [rows] = await db().query('SELECT id, email, password_hash, role FROM users WHERE email = ?', [email]);
+    if (rows.length === 0) {
+      return res.render('admin/login', { title: 'Ingresar', error: 'Usuario no encontrado.' });
+    }
+
+    const user = rows[0];
+    const ok = await bcrypt.compare(password, user.password_hash);
+    if (!ok) {
+      return res.render('admin/login', { title: 'Ingresar', error: 'Contraseña incorrecta.' });
+    }
+
+    // setea sesión y guarda
+    req.session.user = { id: user.id, email: user.email, role: user.role || 'seller' };
+    return req.session.save(() => res.redirect('/admin'));
+  } catch (err) {
+    console.error('Error login:', err);
+    return res.status(500).render('admin/login', { title: 'Ingresar', error: 'Error interno. Intenta de nuevo.' });
+  }
+});
+
+// GET /admin/logout -> cierra sesión
+router.get('/logout', (req, res) => {
+  req.session.destroy(() => {
+    // limpia cookie si existe
+    res.clearCookie('lyn.sid');
+    return res.redirect('/admin/login');
+  });
+});
+
+/* ============================
+   RUTAS PROTEGIDAS (revisan sesión aquí mismo)
+   Nota: si ya montaste ensureAuth a nivel de server, esto es redundante pero inofensivo.
+============================ */
+function mustBeAuth(req, res, next) {
+  if (req.session?.user) return next();
   return res.redirect('/admin/login');
 }
 
-// GET /admin -> redirige a dashboard o login
-router.get('/', async (req, res, next) => {
+// GET /admin  -> dashboard
+router.get('/', mustBeAuth, async (req, res) => {
   try {
-    if (req.session?.user) return res.redirect('/admin/dashboard');
-    const content = await renderAsyncLocal(req, 'admin/login', { error: null });
-    res.render('layout', { title: 'Login', content });
-  } catch (e) { next(e); }
+    const [[v]] = await db().query('SELECT COUNT(*) AS total FROM vehicles');
+    const [[i]] = await db().query('SELECT COUNT(*) AS total FROM inquiries');
+    const [[u]] = await db().query('SELECT COUNT(*) AS total FROM users');
+
+    return res.render('admin/dashboard', {
+      title: 'Panel',
+      stats: {
+        vehicles: v?.total ?? 0,
+        inquiries: i?.total ?? 0,
+        users: u?.total ?? 0
+      }
+    });
+  } catch (err) {
+    console.error('Dashboard error:', err);
+    return res.status(500).render('admin/dashboard', {
+      title: 'Panel',
+      stats: { vehicles: 0, inquiries: 0, users: 0 },
+      error: 'No se pudieron cargar las estadísticas.'
+    });
+  }
 });
 
-// login explícito
-router.get('/login', async (req, res, next) => {
+/* ============================
+   EJEMPLO de sección protegida
+============================ */
+// GET /admin/vehicles
+router.get('/vehicles', mustBeAuth, async (req, res) => {
   try {
-    const content = await renderAsyncLocal(req, 'admin/login', { error: null });
-    res.render('layout', { title: 'Login', content });
-  } catch (e) { next(e); }
-});
-
-router.post('/login', express.urlencoded({ extended: true }), async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-    const [[user]] = await db().query('SELECT id,email,password_hash,role FROM users WHERE email=? LIMIT 1', [email]);
-    if (!user) {
-      const content = await renderAsyncLocal(req, 'admin/login', { error: 'Usuario o contraseña inválidos' });
-      return res.status(401).render('layout', { title: 'Login', content });
-    }
-    const ok = await bcrypt.compare(password, user.password_hash || '');
-    if (!ok) {
-      const content = await renderAsyncLocal(req, 'admin/login', { error: 'Usuario o contraseña inválidos' });
-      return res.status(401).render('layout', { title: 'Login', content });
-    }
-    req.session.user = { id: user.id, email: user.email, role: user.role };
-    res.redirect('/admin/dashboard');
-  } catch (e) { next(e); }
-});
-
-router.post('/logout', (req, res) => {
-  req.session?.destroy?.(()=> res.redirect('/admin/login'));
-});
-
-// Panel principal
-router.get('/dashboard', requireAuth, async (req, res, next) => {
-  try {
-    const [[stats]] = await db().query(`
-      SELECT
-        (SELECT COUNT(*) FROM vehicles) AS vehicles,
-        (SELECT COUNT(*) FROM inquiries) AS inquiries,
-        (SELECT COUNT(*) FROM users)    AS users
-    `);
-    const content = await renderAsyncLocal(req, 'admin/dashboard', { stats });
-    res.render('layout', { title: 'Panel', content });
-  } catch (e) { next(e); }
+    const [rows] = await db().query('SELECT id, make, model, year, price, status FROM vehicles ORDER BY id DESC LIMIT 100');
+    return res.render('admin/vehicles/index', { title: 'Vehículos', items: rows });
+  } catch (err) {
+    console.error('Vehicles list error:', err);
+    return res.status(500).render('admin/vehicles/index', { title: 'Vehículos', items: [], error: 'Error cargando vehículos.' });
+  }
 });
