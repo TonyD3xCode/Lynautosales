@@ -12,7 +12,7 @@
     "search": "Search",
     "loading": "Loading...",
     "error": "An error occurred"
-  }
+  },
   "menu": {
       "inventory": "Inventory",
       "about": "About",
@@ -20,11 +20,11 @@
       "login": "Log in",
       "admin": "Admin",
       "logout": "Log out"
-    }
+    },
   "lang": {
       "es": "ES",
       "en": "EN"
-    }
+    },
   "buttons": {
     "save": "Save",
     "cancel": "Cancel",
