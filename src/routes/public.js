@@ -1,9 +1,9 @@
 // src/routes/public.js
 import express from 'express';
 import { renderAsync } from '../utils/renderAsync.js';
-import asyncH from '../middleware/asyncHandler.js';
 
 export const router = express.Router();
+
 // Helper para capturar errores async sin romper Express
 const asyncH = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
