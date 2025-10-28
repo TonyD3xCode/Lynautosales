@@ -185,4 +185,34 @@ form label{display:block;margin-top:8px;font-weight:600}
 .form input, .form textarea, .form select { width:100%; padding:10px 12px; border:1px solid #ddd; border-radius:8px; background:#fff; }
 .btn.small { padding:6px 10px; font-size:12px; }
 
+:root{
+  --bg:#0d0d0d;
+  --panel:#131313;
+  --card:#1a1a1a;
+  --text:#e8e8e8;
+  --muted:#b8b8b8;
+  --brand:#d4af37; /* dorado */
+  --brand-2:#f0d879;
+  --radius:10px;
+  --shadow: 0 8px 24px rgba(0,0,0,.35);
+}
+
+html,body{background:#0b0b0b;color:var(--text);-webkit-font-smoothing:antialiased}
+.container{max-width:1140px;margin-inline:auto;padding-inline:16px}
+.navbar{backdrop-filter:saturate(180%) blur(8px); background:rgba(0,0,0,.65); border-bottom:1px solid rgba(212,175,55,.25)}
+.navbar a{color:var(--text)}
+.navbar .btn{background:var(--brand); color:#111; border-radius:8px; padding:8px 14px}
+.hero{background:#0e0e0e; border:1px solid rgba(212,175,55,.18); border-radius:var(--radius); box-shadow:var(--shadow)}
+.input, input, select, textarea{
+  background:#101010; border:1px solid #2a2a2a; color:var(--text); border-radius:8px; padding:10px 12px;
+}
+.input:focus, input:focus, select:focus, textarea:focus{outline:none; border-color:var(--brand)}
+.card{background:var(--card); border:1px solid #222; border-radius:var(--radius); box-shadow:var(--shadow)}
+.btn-primary{background:var(--brand); border:0; color:#111}
+.btn-primary:hover{filter:brightness(1.05)}
+.table{border-collapse:separate; border-spacing:0 8px}
+.table tr{background:#121212}
+.table td,.table th{padding:12px 14px}
+.badge{background:rgba(212,175,55,.12); color:var(--brand); border:1px solid rgba(212,175,55,.3); padding:3px 8px; border-radius:999px}
+.footer{border-top:1px solid rgba(212,175,55,.22)}
 
