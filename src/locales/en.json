@@ -12,12 +12,20 @@
     "delete": "Delete",
     "actions": "Actions",
     "status": "Status",
+    "about": "About us",
+    "contact": "Contact",
     "available": "Available",
     "pending": "Pending",
     "sold": "Sold"
   },
   "home": {
     "headline": "Used cars for sale",
+    "title": "Your next car is here",
+    "subtitle": "Verified inventory, competitive prices and immediate attention in Panama City, FL.",
+    "view_inventory": "View inventory",
+    "whatsapp": "WhatsApp",
+    "search_placeholder": "Search by make, model or VIN",
+    "search": "Search",
     "cta": "Browse inventory"
   },
   "vehicle": {
