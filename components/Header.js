@@ -1,68 +1,92 @@
-import Link from 'next/link';
+// pages/index.js
+import Head from 'next/head';
 import { useTranslation } from 'next-i18next';
-import LanguageToggle from './LanguageToggle';
-import LoginButton from './LoginButton';
-import { useEffect, useRef, useState } from 'react';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
-export default function Header() {
+export default function Home() {
   const { t } = useTranslation('common');
-  const [open, setOpen] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const onClick = (e) => { if (open && ref.current && !ref.current.contains(e.target)) setOpen(false); };
-    document.addEventListener('click', onClick);
-    return () => document.removeEventListener('click', onClick);
-  }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 bg-brand-black/80 backdrop-blur">
-      <div className="container flex items-center justify-between py-4">
-        {/* Logo izquierda */}
-        <Link href="/" className="flex items-center gap-2">
-          <img src="../assets/logo.png" alt="LYN AutoSales" className="h-6 w-auto" />
-        </Link>
+    <>
+      <Head>
+        <title>LYN AutoSales</title>
+      </Head>
 
-        {/* Nav derecha */}
-        <div className="hidden md:flex items-center gap-8">
-          <nav className="flex items-center gap-8 text-sm">
-            <Link href="/inventory" className="hover:text-brand-yellow">{t('menu.inventory')}</Link>
-            <Link href="/about" className="hover:text-brand-yellow">{t('menu.about')}</Link>
-            <Link href="/contact" className="hover:text-brand-yellow">{t('menu.contact')}</Link>
-          </nav>
-          <LanguageToggle />
-          <LoginButton />
-        </div>
+      <Header />
 
-        {/* Menú móvil */}
-        <button
-          className="md:hidden w-10 h-10 grid place-items-center border border-white/10 rounded-md"
-          onClick={() => setOpen(!open)}
-          aria-label="Menú"
-        >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
-        </button>
-      </div>
+      <main className="container">
+        <section className="hero">
+          <h1>{t('home.title')}</h1>
+          <p>{t('home.subtitle')}</p>
 
-      {/* Overlay + panel móvil */}
-      {open && (
-        <div className="md:hidden fixed inset-0 bg-black/50">
-          <div ref={ref} className="ml-auto h-full w-72 bg-brand-black border-l border-white/10 p-5 flex flex-col gap-4">
-            <div className="flex items-center gap-3">
-              <LanguageToggle />
-              <LoginButton />
-              <button className="ml-auto" onClick={() => setOpen(false)} aria-label="Cerrar">
-                ✕
-              </button>
-            </div>
-            <nav className="mt-3 flex flex-col gap-4 text-base">
-              <Link href="/inventory" onClick={() => setOpen(false)}>{t('menu.inventory')}</Link>
-              <Link href="/about" onClick={() => setOpen(false)}>{t('menu.about')}</Link>
-              <Link href="/contact" onClick={() => setOpen(false)}>{t('menu.contact')}</Link>
-            </nav>
+          <div className="cta">
+            <a className="btn btn-primary" href="/inventory">
+              {t('buttons.viewInventory')}
+            </a>
+            <a className="btn btn-secondary" href="https://wa.me/1XXXXXXXXXX" target="_blank" rel="noreferrer">
+              {t('buttons.whatsapp')}
+            </a>
           </div>
-        </div>
-      )}
-    </header>
+
+          <form className="search">
+            <input placeholder={t('home.searchPlaceholder')} />
+            <button type="submit" className="btn">{t('buttons.search')}</button>
+          </form>
+        </section>
+
+        <section className="features grid-3">
+          <div className="feature">
+            <h3>{t('home.time')}</h3>
+            <p>{t('home.timeText')}</p>
+          </div>
+          <div className="feature">
+            <h3>{t('home.checked')}</h3>
+            <p>{t('home.checkedText')}</p>
+          </div>
+          <div className="feature">
+            <h3>{t('home.financing')}</h3>
+            <p>{t('home.financingText')}</p>
+          </div>
+        </section>
+
+        <section className="teaser">
+          <div className="teaser-head">
+            <h2>{t('home.newInventory')}</h2>
+            <a className="btn btn-outline" href="/inventory">{t('buttons.viewAll')}</a>
+          </div>
+
+          {/* Cards de ejemplo — remplaza por tus datos */}
+          <div className="cards grid-3">
+            {/* usa /public/images/... o Image con domains (ver abajo) */}
+            <a className="card">
+              <img src="/images/sample-1.jpg" alt="Toyota Camry" />
+              <h4>2020 Toyota Camry SE</h4>
+            </a>
+            <a className="card">
+              <img src="/images/sample-2.jpg" alt="Honda Civic" />
+              <h4>2019 Honda Civic EX</h4>
+            </a>
+            <a className="card">
+              <img src="/images/sample-3.jpg" alt="Chevy Tahoe" />
+              <h4>2021 Chevy Tahoe LT</h4>
+            </a>
+          </div>
+
+          <p className="muted">{t('home.noVehicles')}</p>
+        </section>
+      </main>
+
+      <Footer />
+    </>
   );
+}
+
+export async function getStaticProps({ locale = 'es' }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common']))
+    }
+  };
 }
