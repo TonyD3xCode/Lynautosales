@@ -8,25 +8,10 @@
 <link rel="icon" href="/assets/favicon.ico">
 </head>
 <body class="theme-lyn">
-<header class="site-header">
-  <div class="wrap">
-    <div class="brand">
-      <img src="/assets/logo.png" class="logo" alt="LYN AutoSales logo" />
-      <a href="/" class="brand-name">LYN AutoSales</a>
-    </div>
-    <nav>
-      <a href="/inventory"><%= __('common.inventory') %></a>
-      <% if (user) { %>
-        <a href="/admin"><%= __('common.admin') %></a>
-        <a href="/admin/logout"><%= __('common.logout') %></a>
-      <% } else { %>
-        <a href="/admin/login"><%= __('common.login') %></a>
-      <% } %>
-      <a href="?lang=<%= (req.getLocale() === 'es' ? 'en' : 'es') %>" class="lang-toggle"><%= req.getLocale() === 'es' ? 'EN' : 'ES' %></a>
-    </nav>
-  </div>
-</header>
-<main class="wrap"><%- content %></main>
-<footer class="site-footer"><div class="wrap">© <%= new Date().getFullYear() %> LYN AutoSales</div></footer>
+<%- include('partials/header') %>
+<main class="container">
+    <%- body %>
+  </main>
+<%- include('partials/footer') %>
 </body>
 </html>
