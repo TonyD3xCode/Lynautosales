@@ -3,120 +3,92 @@ import session from 'express-session';
 import path from 'path';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
-import i18n from 'i18n';
 import { fileURLToPath } from 'url';
+import i18n from 'i18n';
 
-dotenv.config(); // 👉 Cargar variables antes de usarlas
-
-// Rutas y servicios
 import { router as publicRouter } from './src/routes/public.js';
 import { router as adminRouter } from './src/routes/admin.js';
+
+import { ensureAuth, buildAdminMenu, allowAnonAdminPaths } from './src/middleware/authz.js';
 import { db, initSchema } from './src/services/db.js';
-import { ensureAuth, buildAdminMenu } from './src/middleware/authz.js';
 
-// Paths ESM
+dotenv.config();
+
+// __dirname ESM
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname  = path.dirname(__filename);
 
-// Asegurar DB y esquema (usa .env ya cargado)
-await db().getConnection().then(c => c.release());
-await initSchema();
-
-// App
 const app = express();
 
-// Seguridad base
+// MUY IMPORTANTE en Railway/Proxies:
+app.set('trust proxy', 1);
+
+// Seguridad básica
 app.use(helmet({ contentSecurityPolicy: false }));
 
 // Body parsers
 app.use(express.urlencoded({ extended: true, limit: '20mb' }));
 app.use(express.json({ limit: '20mb' }));
 
-// Sesiones (antes de cualquier middleware que use req.session)
+// Sesión (cookie válida detrás de proxy)
 app.use(session({
+  name: 'lyn.sid',
   secret: process.env.SESSION_SECRET || 'dev_secret',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 1000 * 60 * 60 * 6 } // 6h
+  proxy: true,
+  cookie: {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production' // con trust proxy = OK en Railway
+  }
 }));
 
-// i18n
+// i18n (si no hay locales aún, no rompe)
 i18n.configure({
-  locales: ['es', 'en'],
+  locales: ['es','en'],
   defaultLocale: 'es',
   directory: path.join(__dirname, 'src', 'locales'),
-  queryParameter: 'lang',
-  cookie: 'lang',
-  objectNotation: true
+  objectNotation: true,
 });
 app.use(i18n.init);
 
-// Helpers para vistas
+// helpers para vistas
 app.use((req, res, next) => {
-  res.locals.req = req;
+  res.locals.req  = req;
+  res.locals.__   = req.__.bind(req);
+  res.locals.t    = req.__.bind(req);
   res.locals.user = req.session?.user || null;
-  // fallback sencillo por si alguna vista usa __ o t sin i18n
-  res.locals.__ = res.__ || ((k) => k);
-  res.locals.t  = res.__ || ((k) => k);
   next();
 });
 
-// Views
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'src', 'views'));
+// estáticos
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/assets',  express.static(path.join(__dirname, 'src', 'assets')));
 
-// Archivos estáticos
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
-  setHeaders: (res) => res.setHeader('Cache-Control', 'public, max-age=31536000, immutable')
-}));
-app.use('/assets', express.static(path.join(__dirname, 'src', 'assets')));
-
-// Log de conectividad DB (opcional)
+// DB warm-up + schema
 try {
-  const conn = await db().getConnection();
-  conn.release();
+  const c = await db().getConnection(); c.release();
+  await initSchema();
 } catch (e) {
-  console.error('DB connection failed:', e.message);
+  console.error('DB init error:', e);
 }
 
-// Preparar menú y proteger /admin (antes de montar el router de admin)
-app.use('/admin', ensureAuth, (req, res, next) => {
+// Rutas públicas del sitio
+app.use('/', publicRouter);
+
+// Admin: primero dejar pasar login/logout sin auth, luego proteger el resto
+app.use('/admin', allowAnonAdminPaths, adminRouter);   // /admin/login y /admin/logout sin bloqueo
+app.use('/admin', ensureAuth, (req, res, next) => {    // del resto hacia abajo, con auth
   res.locals.adminMenu = buildAdminMenu(req.session.user?.role || 'seller');
   next();
 });
 
-// Rutas
-// --- RUTAS ---
-app.use('/', publicRouter);
-
-// ⚙️ Middleware para proteger solo lo que NO sea login/logout/auth
-app.use('/admin', (req, res, next) => {
-  const publicPaths = ['/login', '/logout', '/auth', '/auth/login', '/auth/logout'];
-  if (publicPaths.includes(req.path.toLowerCase())) {
-    return next(); // estas rutas quedan libres
-  }
-  return ensureAuth(req, res, next); // todo lo demás protegido
-});
-
-// 🧭 Construcción del menú según el rol (solo después del login)
-app.use('/admin', (req, res, next) => {
-  if (req.session?.user) {
-    res.locals.adminMenu = buildAdminMenu(req.session.user.role || 'seller');
-  }
-  next();
-});
-
-// 🧩 Router admin
-app.use('/admin', adminRouter);
-
-app.use((req,res)=>{
-  res.status(404).render('layout', { 
-    title: '404', 
-    content: `<h2>${req.__('common.not_found')}</h2>`,
-    user: req.session.user || null
-  });
+// 404
+app.use((req, res) => {
+  res.status(404).render('pages/404.ejs', { title: '404' });
 });
 
 // Start
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`LYN AutoSales ON :${PORT}`));
