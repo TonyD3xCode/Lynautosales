@@ -86,29 +86,28 @@ app.use('/admin', ensureAuth, (req, res, next) => {
 });
 
 // Rutas
-// --- Rutas ---
+// --- RUTAS ---
 app.use('/', publicRouter);
 
-// Proteger /admin excepto login/logout/auth
-app.use(
-  '/admin',
-  (req, res, next) => {
-    const p = req.path.toLowerCase();
-    const isPublic =
-      p === '/login' ||
-      p === '/logout' ||
-      p === '/auth' ||           // si usas /admin/auth para POST de login
-      p.startsWith('/auth/');    // o variantes
-    if (isPublic) return next();
-    return ensureAuth(req, res, next);
-  },
-  (req, res, next) => {
-    // construir menú según el rol (si no hay sesión, no se usa)
-    res.locals.adminMenu = buildAdminMenu(req.session?.user?.role || 'seller');
-    next();
-  },
-  adminRouter
-);
+// ⚙️ Middleware para proteger solo lo que NO sea login/logout/auth
+app.use('/admin', (req, res, next) => {
+  const publicPaths = ['/login', '/logout', '/auth', '/auth/login', '/auth/logout'];
+  if (publicPaths.includes(req.path.toLowerCase())) {
+    return next(); // estas rutas quedan libres
+  }
+  return ensureAuth(req, res, next); // todo lo demás protegido
+});
+
+// 🧭 Construcción del menú según el rol (solo después del login)
+app.use('/admin', (req, res, next) => {
+  if (req.session?.user) {
+    res.locals.adminMenu = buildAdminMenu(req.session.user.role || 'seller');
+  }
+  next();
+});
+
+// 🧩 Router admin
+app.use('/admin', adminRouter);
 
 app.use((req,res)=>{
   res.status(404).render('layout', { 
