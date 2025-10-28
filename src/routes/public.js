@@ -1,9 +1,9 @@
 // src/routes/public.js
-import { Router } from 'express';
+import express from 'express';
 import { renderAsync } from '../utils/renderAsync.js';
+import asyncH from '../middleware/asyncHandler.js';
 
-export const router = Router();
-
+export const router = express.Router();
 // Helper para capturar errores async sin romper Express
 const asyncH = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
@@ -12,11 +12,25 @@ const asyncH = (fn) => (req, res, next) =>
 router.get(
   '/',
   asyncH(async (req, res) => {
+    const home = {
+      title: 'Tu próximo auto está aquí',
+      subtitle: 'Inventario verificado, precios competitivos y atención inmediata en Panama City, FL.',
+      view_inventory: 'Ver inventario',
+      whatsapp: 'WhatsApp',
+      whatsapp_link: 'https://wa.me/1XXXXXXXXXX',
+      featured_title: 'Nuevos en inventario',
+      view_all: 'Ver todo'
+    };
+
+    const featured = []; // Evita ReferenceError si no hay vehículos
+
     const html = await renderAsync(res, 'home', {
-      title: res.__ ? res.__('common.home') : 'Inicio',
+      title: 'Inicio | LYN AutoSales',
       page: 'home',
-      featured: []
+      home,
+      featured
     });
+
     res.send(html);
   })
 );
@@ -81,3 +95,5 @@ router.post(
     res.redirect('/admin');
   })
 );
+
+export default router; 
