@@ -1,7 +1,6 @@
 // src/routes/public.js
 import express from 'express';
 import { renderAsync } from '../utils/renderAsync.js';
-import { listFeatured, listLatest } from '../services/vehicles.js';
 
 export const router = express.Router();
 
@@ -12,21 +11,21 @@ const asyncH = (fn) => (req, res, next) =>
 // Home
 router.get('/', async (req, res, next) => {
   try {
-    const featured = await listFeatured(6);   // o [] si aún no lo tienes
-    const latest   = await listLatest(6);     // idem
+    const featured = []; // de momento vacío
+    const latest = [];   // de momento vacío
 
     const html = await renderAsync(res, 'home', {
       home: {
-        title:    req.__('home.title'),
-        subtitle: req.__('home.subtitle'),
-        view_inventory: req.__('home.view_inventory'),
-        whatsapp_cta:   req.__('home.whatsapp_cta')
+        title: 'Tu próximo auto está aquí',
+        subtitle: 'Inventario verificado, precios competitivos y atención inmediata en Panama City, FL.',
+        view_inventory: 'Ver inventario',
+        whatsapp_cta: 'WhatsApp'
       },
       featured,
       latest
     });
 
-    return res.send(html); // <<< IMPORTANTE: enviar el HTML ya resuelto
+    res.send(html); // <<< IMPORTANTE: enviar el HTML ya resuelto
   } catch (err) {
     next(err);
   }
