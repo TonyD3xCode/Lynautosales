@@ -70,7 +70,6 @@ app.use(i18n.init);
 // estáticos
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/assets', express.static(path.join(__dirname, 'src', 'assets')));
-app.use('/', app.use('/assets', express.static(path.join(__dirname, 'src', 'assets')));
 // Rutas públicas del sitio
 app.use('/', publicRouter);
 app.use('/admin', adminRouter);
